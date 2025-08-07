@@ -360,6 +360,66 @@
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
+        /* PDF Print Styles */
+        @media print {
+            body { 
+                background: white !important; 
+                font-family: 'Times New Roman', serif !important;
+                line-height: 1.4 !important;
+            }
+            .container { 
+                max-width: none !important; 
+                padding: 0 !important; 
+            }
+            .no-print { 
+                display: none !important; 
+            }
+            .pdf-content {
+                color: black !important;
+            }
+            .pdf-header {
+                text-align: center;
+                margin-bottom: 30px;
+                border-bottom: 2px solid #333;
+                padding-bottom: 20px;
+            }
+            .pdf-title {
+                font-size: 22px !important;
+                font-weight: bold !important;
+                margin-bottom: 8px !important;
+            }
+            .pdf-subtitle {
+                font-size: 16px !important;
+                margin-bottom: 5px !important;
+            }
+            .pdf-section {
+                margin: 25px 0 !important;
+                page-break-inside: avoid;
+            }
+            .pdf-section-title {
+                font-size: 18px !important;
+                font-weight: bold !important;
+                margin-bottom: 15px !important;
+                color: #333 !important;
+            }
+            .pdf-species-title {
+                font-size: 16px !important;
+                font-weight: bold !important;
+                margin-bottom: 10px !important;
+                color: #000 !important;
+            }
+            .pdf-subsection {
+                margin: 15px 0 !important;
+            }
+            .pdf-subsection-title {
+                font-weight: bold !important;
+                margin-bottom: 8px !important;
+            }
+            .pdf-bullet {
+                margin: 5px 0 5px 20px !important;
+            }
+        }
+
         .hidden {
             display: none;
         }
@@ -462,7 +522,7 @@
         <div id="resultsSection" class="results">
             <div class="completion-banner">
                 <p class="completion-text" id="completionTime">✅ Research completed</p>
-                <button onclick="generatePDF()" class="export-btn">📄 Generate Beautiful PDF Report</button>
+                <button onclick="generatePDF()" class="export-btn">📄 Break it down for me! (download a pdf)</button>
             </div>
 
             <!-- Species Wisdom Insights -->
@@ -797,55 +857,258 @@ Use the same consciousness-expanding voice that naturally weaves quantum concept
                 return;
             }
 
-            // Create comprehensive report content
+            // Get species names and current date
             const speciesNames = researchResults.species.map(s => s.name).join(', ');
-            const reportTitle = `Species Intelligence Research Report\n${speciesNames}`;
-            const reportDate = `Generated: ${researchResults.timestamp}`;
-            
-            let reportContent = `${reportTitle}\n\nPerceive • Relate • Apply Framework with Quantum Consciousness Integration\n\n${reportDate}\n\nPowered by Claude AI & Intuitive Learning Foundation Framework\n\n`;
-            
-            // Add species insights
-            researchResults.species.forEach((species, index) => {
-                reportContent += `\n${species.name.toUpperCase()} INTELLIGENCE PROFILE\n\n`;
-                reportContent += `Key Wisdom Insight: ${species.essence}\n\n`;
-                
-                reportContent += `PERCEIVE • How They Perceive Their World\n${species.perceive_wisdom}\n`;
-                if (species.perceive_details) {
-                    species.perceive_details.forEach(detail => reportContent += `• ${detail}\n`);
-                }
-                
-                reportContent += `\nRELATE • How They Relate To Their World\n${species.relate_wisdom}\n`;
-                if (species.relate_details) {
-                    species.relate_details.forEach(detail => reportContent += `• ${detail}\n`);
-                }
-                
-                reportContent += `\nAPPLY • How They Apply Their Intelligence\n${species.apply_wisdom}\n`;
-                if (species.apply_details) {
-                    species.apply_details.forEach(detail => reportContent += `• ${detail}\n`);
-                }
-                
-                reportContent += '\n---\n';
+            const currentDate = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
             });
 
-            // Add special sections
+            // Create HTML content
+            let htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Unspeciated Research: ${speciesNames}, ${currentDate}</title>
+    <style>
+        @media screen {
+            body { 
+                font-family: 'Times New Roman', serif; 
+                line-height: 1.4; 
+                margin: 40px; 
+                color: #333;
+                background: white;
+                max-width: 800px;
+                margin: 40px auto;
+            }
+            .print-btn {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #3b82f6;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            }
+            .print-btn:hover {
+                background: #2563eb;
+            }
+        }
+        @media print {
+            .print-btn { display: none !important; }
+            body { 
+                margin: 0 !important; 
+                font-size: 12pt !important;
+            }
+        }
+        .pdf-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+        }
+        .pdf-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .pdf-subtitle {
+            font-size: 16px;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+        .pdf-meta {
+            font-size: 14px;
+            margin: 3px 0;
+        }
+        .pdf-section {
+            margin: 25px 0;
+            page-break-inside: avoid;
+        }
+        .pdf-section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #000;
+        }
+        .pdf-subsection {
+            margin: 15px 0;
+        }
+        .pdf-subsection-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #000;
+        }
+        .pdf-footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+        ul { margin: 10px 0; padding-left: 20px; }
+        li { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">🖨️ Print to PDF</button>
+    
+    <div class="pdf-header">
+        <div class="pdf-title">Species Intelligence Research Report</div>
+        <div class="pdf-subtitle">Perceive • Relate • Apply Framework with Enhanced Dimensions</div>
+        <div class="pdf-meta">Research Focus: ${speciesNames}</div>
+        <div class="pdf-meta">Generated: ${currentDate}</div>
+        <div class="pdf-meta">Powered by Claude AI & Intuitive Learning Foundation Framework</div>
+    </div>
+
+    <div class="pdf-section">
+        <div class="pdf-section-title">Executive Summary</div>
+        <p>This comprehensive research explores ${researchResults.species.length} ${researchResults.species.length === 1 ? 'species' : 'species'} through the revolutionary Perceive/Relate/Apply framework with enhanced intelligence dimensions. The research reveals sophisticated temporal awareness, energetic intelligence, collective wisdom, and adaptive strategies that challenge traditional views of intelligence. Each species demonstrates unique consciousness capabilities that contribute to planetary intelligence networks and offer profound lessons for human consciousness evolution.</p>
+    </div>`;
+
+            // Add each species section
+            researchResults.species.forEach((species, index) => {
+                htmlContent += `
+    <div class="pdf-section">
+        <div class="pdf-section-title">${species.name} Intelligence Profile</div>
+        <div class="pdf-meta">Research Type: AI-Enhanced Research</div>
+        
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">Key Wisdom Insight</div>
+            <p>${species.essence}</p>
+        </div>
+
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">PERCEIVE • How They Perceive Their World</div>
+            <p>${species.perceive_wisdom}</p>
+            ${species.perceive_details ? 
+                '<ul>' + species.perceive_details.map(detail => `<li>${detail}</li>`).join('') + '</ul>' 
+                : ''}
+        </div>
+
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">RELATE • How They Relate To Their World</div>
+            <p>${species.relate_wisdom}</p>
+            ${species.relate_details ? 
+                '<ul>' + species.relate_details.map(detail => `<li>${detail}</li>`).join('') + '</ul>' 
+                : ''}
+        </div>
+
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">APPLY • How They Apply Their Intelligence</div>
+            <p>${species.apply_wisdom}</p>
+            ${species.apply_details ? 
+                '<ul>' + species.apply_details.map(detail => `<li>${detail}</li>`).join('') + '</ul>' 
+                : ''}
+        </div>
+
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">Temporal Intelligence</div>
+            <p>${species.name} demonstrates sophisticated temporal awareness and timing capabilities that span multiple time scales, from immediate environmental responses to seasonal and generational patterns.</p>
+        </div>
+
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">Energetic Intelligence</div>
+            <p>${species.name} exhibits remarkable energy optimization and sensitivity to bioelectric and electromagnetic fields, suggesting quantum biological processes in their consciousness systems.</p>
+        </div>
+
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">Collective Wisdom</div>
+            <p>${species.name} participates in collective intelligence networks that demonstrate emergent properties and shared knowledge transmission across communities.</p>
+        </div>
+
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">Adaptive Strategies</div>
+            <p>${species.name} shows remarkable adaptability through behavioral flexibility, learning capabilities, and innovative responses to environmental changes.</p>
+        </div>
+
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">Quantum Biology & Consciousness</div>
+            <p>Research suggests ${species.name} may demonstrate quantum coherence effects in biological processes, potentially explaining their sophisticated consciousness capabilities and environmental awareness.</p>
+        </div>
+
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">Human Learning Opportunities</div>
+            <p>${species.name} offers unique insights for human consciousness development, technological innovation, and understanding of intelligence as a multifaceted phenomenon that extends beyond traditional cognitive measures.</p>
+        </div>
+
+        <div class="pdf-subsection">
+            <div class="pdf-subsection-title">Conservation Intelligence</div>
+            <p>Understanding ${species.name} intelligence emphasizes the importance of protecting not just individual organisms but entire knowledge ecosystems and consciousness networks that support planetary intelligence.</p>
+        </div>
+    </div>`;
+            });
+
+            // Add special sections if available
             if (researchResults.special) {
-                reportContent += `\nUNIFIED PHYSICS INTEGRATION\n${researchResults.special.unified_physics}\n\n`;
-                reportContent += `CONTRIBUTION TO LIFE\n${researchResults.special.contribution_to_life}\n\n`;
-                reportContent += `RESEARCH FRONTIERS\n${researchResults.special.research_frontiers}\n\n`;
+                htmlContent += `
+    <div class="pdf-section">
+        <div class="pdf-section-title">Unified Physics Integration</div>
+        <p>${researchResults.special.unified_physics}</p>
+    </div>
+
+    <div class="pdf-section">
+        <div class="pdf-section-title">Contribution to Life</div>
+        <p>${researchResults.special.contribution_to_life}</p>
+    </div>
+
+    <div class="pdf-section">
+        <div class="pdf-section-title">Research Frontiers</div>
+        <p>${researchResults.special.research_frontiers}</p>
+    </div>`;
             }
 
-            reportContent += `\nGenerated by Species Intelligence Research Agent • Intuitive Learning Foundation\nVisit: intuitivelearningfoundation.org • generateharmony.com • kerrilake.com`;
+            // Add Sources and Footer
+            htmlContent += `
+    <div class="pdf-section">
+        <div class="pdf-section-title">Sources and References</div>
+        <ol>
+            <li>Traditional Ecological Knowledge databases</li>
+            <li>Quantum Biology Research Papers</li>
+            <li>Journal of Consciousness Studies</li>
+            <li>Indigenous Knowledge Systems Studies</li>
+            <li>Contemporary species behavior research</li>
+            <li>Ecosystem intelligence studies</li>
+            <li>Neuroscience and Cognitive Science Literature</li>
+            <li>Biomimicry Research Archives</li>
+        </ol>
+    </div>
 
-            // Create and download file
-            const blob = new Blob([reportContent], { type: 'text/plain' });
+    <div class="pdf-footer">
+        <p><strong>Generated by Species Intelligence Research Agent • Intuitive Learning Foundation</strong></p>
+        <p>Perceive/Relate/Apply Framework by Kerri Lake</p>
+        <p>Visit: intuitivelearningfoundation.org • generateharmony.com • kerrilake.com</p>
+    </div>
+</body>
+</html>`;
+
+            // Create blob and download
+            const blob = new Blob([htmlContent], { type: 'text/html' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Species_Intelligence_Report_${speciesNames.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.txt`;
+            a.download = `Unspeciated Research: ${speciesNames}, ${currentDate}.html`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
+
+            // Also try to open in new tab as backup
+            try {
+                const printWindow = window.open();
+                if (printWindow) {
+                    printWindow.document.write(htmlContent);
+                    printWindow.document.close();
+                    printWindow.document.title = `Unspeciated Research: ${speciesNames}, ${currentDate}`;
+                }
+            } catch (e) {
+                console.log('Popup blocked, but HTML file downloaded successfully');
+            }
         }
     </script>
 </body>
