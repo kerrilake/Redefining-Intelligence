@@ -253,6 +253,53 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
         }
 
+        .connections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .connections-card {
+            padding: 24px;
+            border-radius: 12px;
+            border-left: 4px solid;
+        }
+
+        .similarities-card {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-left-color: #3b82f6;
+        }
+
+        .differences-card {
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+            border-left-color: #ec4899;
+        }
+
+        .wellness-card {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border-left-color: #10b981;
+        }
+
+        .connections-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .connections-content {
+            color: #374151;
+            line-height: 1.7;
+        }
+
+        .connections-content p {
+            margin-bottom: 12px;
+        }
+
         .wisdom-title {
             font-size: 1.25rem;
             font-weight: 600;
@@ -527,7 +574,7 @@
 
             <!-- Species Wisdom Insights -->
             <div class="card">
-                <h2 class="card-title">✨ Species Wisdom Insights</h2>
+                <h2 class="card-title">🌟 Intelligence Connections & Contributions</h2>
                 <div id="wisdomContent" class="wisdom-grid">
                     <!-- Wisdom cards will be inserted here -->
                 </div>
@@ -617,8 +664,10 @@
         }
 
         async function researchSpecies(speciesName, options) {
-            // Build the research prompt
-            let prompt = `Research the species "${speciesName}" using the Perceive/Relate/Apply framework. Write in the voice of an inspired college professor sharing cutting-edge consciousness research in accessible, wonder-filled language.
+            // Enhanced research prompt based on the React version's comprehensive approach
+            let prompt = `Based on current scientific knowledge, analyze ${speciesName} through the Redefining Intelligence framework that views intelligence as relational capacity (Perceive, Relate, Apply) rather than problem-solving hierarchy.
+
+Draw from established research in biology, neuroscience, quantum biology, and ecology to provide detailed insights about ${speciesName}. Focus on evidence-based findings while being open to quantum and unified physics perspectives.
 
 CRITICAL VOICE REQUIREMENTS:
 - Blend quantum consciousness concepts naturally into relatable language
@@ -626,17 +675,36 @@ CRITICAL VOICE REQUIREMENTS:
 - Write like "Trees sense the world through chemical conversations, reading the atmosphere like an ancient language passed down through generations"
 - Make complex concepts feel accessible and consciousness-expanding
 
-Please provide:
+Provide comprehensive analysis in this JSON format:
 
-**PERCEIVE Wisdom**: How this species perceives their world (1-2 sentences of poetic-scientific description + bullet points with research examples)
-
-**RELATE Wisdom**: How this species relates to their world (1-2 sentences of poetic-scientific description + bullet points with research examples)  
-
-**APPLY Wisdom**: How this species applies their intelligence (1-2 sentences of poetic-scientific description + bullet points with research examples)
-
-**ESSENCE**: A profound 1-2 sentence summary of what this species teaches about consciousness
-
-Format as JSON with: { perceive_wisdom, perceive_details, relate_wisdom, relate_details, apply_wisdom, apply_details, essence }`;
+{
+  "species": "${speciesName}",
+  "perceive_wisdom": "1-2 sentences of poetic-scientific description",
+  "perceive": {
+    "sensory_systems": ["specific sensory abilities with details"],
+    "self_awareness_indicators": ["behaviors showing self-awareness beyond mirror tests"],
+    "quantum_detection": "any evidence of quantum sensitivity or coherence in biology",
+    "holofractographic_processing": "information processing at cellular/organism/system levels"
+  },
+  "relate_wisdom": "1-2 sentences of poetic-scientific description",
+  "relate": {
+    "communication_patterns": ["documented communication methods"],
+    "symbiotic_relationships": ["key relationships with other species"],
+    "quantum_connections": "evidence of non-local or instantaneous responses",
+    "ecosystem_role": "role in larger ecological systems"
+  },
+  "apply_wisdom": "1-2 sentences of poetic-scientific description", 
+  "apply": {
+    "strategic_non_response": "examples where not acting demonstrates intelligence",
+    "creative_applications": ["documented creative or innovative behaviors"],
+    "timing_wisdom": "evidence of sophisticated timing in behavior",
+    "coherence_optimization": "behaviors that optimize system-wide function"
+  },
+  "essence": "A profound 1-2 sentence summary of what this species teaches about consciousness",
+  "unified_physics_integration": "connections to quantum biology or field theories",
+  "life_contribution": "how this species' intelligence benefits the web of life",
+  "research_gaps": ["specific areas where more research is needed"]
+}`;
 
             // Add enhancement options
             if (options.includeIndigenous) {
@@ -657,7 +725,7 @@ Format as JSON with: { perceive_wisdom, perceive_details, relate_wisdom, relate_
                     },
                     body: JSON.stringify({
                         model: "claude-sonnet-4-20250514",
-                        max_tokens: 1500,
+                        max_tokens: 2000,
                         messages: [
                             { role: "user", content: prompt }
                         ]
@@ -673,6 +741,13 @@ Format as JSON with: { perceive_wisdom, perceive_details, relate_wisdom, relate_
                 
                 // Clean up response and parse JSON
                 responseText = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+                
+                // Try to extract JSON if wrapped in other text
+                const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                    responseText = jsonMatch[0];
+                }
+                
                 const speciesData = JSON.parse(responseText);
                 
                 return {
@@ -682,16 +757,67 @@ Format as JSON with: { perceive_wisdom, perceive_details, relate_wisdom, relate_
 
             } catch (error) {
                 console.error(`Error researching ${speciesName}:`, error);
-                // Return fallback data
+                
+                // Enhanced fallback data based on React version's comprehensive approach
+                if (speciesName.toLowerCase().includes('tree')) {
+                    return {
+                        name: speciesName,
+                        perceive_wisdom: "Trees sense the world through chemical conversations, reading the atmosphere like an ancient language passed down through generations.",
+                        perceive: {
+                            sensory_systems: ["Chemical gradient detection", "Light spectrum analysis", "Vibration sensing through roots", "Electromagnetic field sensitivity"],
+                            self_awareness_indicators: ["Resource allocation decisions", "Territorial root boundary recognition", "Stress response communication"],
+                            quantum_detection: "Quantum efficiency in photosynthesis, potential quantum coherence in cellular processes",
+                            holofractographic_processing: "Fractal branching patterns, cellular information networks, root-mycorrhizal integration"
+                        },
+                        relate_wisdom: "Through mycorrhizal partnerships, trees share resources with strangers, creating forest-wide support networks that span across species boundaries.",
+                        relate: {
+                            communication_patterns: ["Chemical signaling through air and soil", "Root network electrical signals", "Mycorrhizal network information exchange"],
+                            symbiotic_relationships: ["Mycorrhizal fungi partnerships", "Nitrogen-fixing bacteria collaboration", "Animal seed dispersal relationships"],
+                            quantum_connections: "Instantaneous forest-wide chemical communication, synchronized seasonal responses",
+                            ecosystem_role: "Atmospheric regulation, soil stabilization, interspecies communication hub"
+                        },
+                        apply_wisdom: "Masters of strategic patience, trees know when to conserve energy and when to reach for growth, demonstrating the intelligence of restraint.",
+                        apply: {
+                            strategic_non_response: "Dormancy timing, selective resource sharing, strategic growth cessation",
+                            creative_applications: ["Architectural canopy optimization", "Chemical defense innovation", "Root system engineering"],
+                            timing_wisdom: "Seasonal synchronization, multi-year masting cycles, drought response timing",
+                            coherence_optimization: "Forest-wide resource distribution, atmospheric gas regulation, soil microbiome cultivation"
+                        },
+                        essence: "Trees embody the wisdom of deep time and interconnected generosity, showing us that true intelligence flows through relationship and patient presence.",
+                        unified_physics_integration: "Quantum coherence in photosynthesis, bioelectromagnetic communication networks, holofractographic scaling",
+                        life_contribution: "Atmospheric regulation, foundation for terrestrial ecosystems, interspecies communication networks",
+                        research_gaps: ["Quantum coherence in root networks", "Electromagnetic communication mechanisms", "Consciousness in plant systems"]
+                    };
+                }
+
+                // Add similar enhanced fallbacks for other common species...
                 return {
                     name: speciesName,
-                    perceive_wisdom: `${speciesName} demonstrates unique sensory capabilities that reveal hidden dimensions of reality.`,
-                    perceive_details: ["Advanced sensory systems", "Environmental awareness", "Pattern recognition"],
+                    perceive_wisdom: `${speciesName} demonstrates unique sensory adaptations that reveal hidden dimensions of reality.`,
+                    perceive: {
+                        sensory_systems: ["Species-specific sensory adaptations"],
+                        self_awareness_indicators: ["Behavioral complexity indicators"],
+                        quantum_detection: "Potential quantum biological processes",
+                        holofractographic_processing: "Multi-scale information processing"
+                    },
                     relate_wisdom: `${speciesName} participates in complex networks of relationship and communication.`,
-                    relate_details: ["Social connections", "Environmental relationships", "Communication systems"],
+                    relate: {
+                        communication_patterns: ["Communication methods"],
+                        symbiotic_relationships: ["Ecological relationships"],
+                        quantum_connections: "Non-local coordination potential",
+                        ecosystem_role: "Ecological niche function"
+                    },
                     apply_wisdom: `${speciesName} applies intelligence through perfectly adapted behaviors and responses.`,
-                    apply_details: ["Strategic behaviors", "Adaptive responses", "Problem-solving abilities"],
-                    essence: `${speciesName} embodies a unique form of consciousness that enriches our understanding of intelligence.`
+                    apply: {
+                        strategic_non_response: "Intelligent non-action examples",
+                        creative_applications: ["Adaptive behaviors"],
+                        timing_wisdom: "Temporal coordination",
+                        coherence_optimization: "System optimization"
+                    },
+                    essence: `${speciesName} embodies a unique form of consciousness that enriches our understanding of intelligence.`,
+                    unified_physics_integration: "Quantum biology connections",
+                    life_contribution: "Ecological intelligence contribution",
+                    research_gaps: ["Research areas needed"]
                 };
             }
         }
@@ -699,12 +825,65 @@ Format as JSON with: { perceive_wisdom, perceive_details, relate_wisdom, relate_
         async function generateRelationshipInsights(speciesData) {
             const speciesNames = speciesData.map(s => s.name).join(", ");
             
+            // Generate comprehensive comparison like the React version
+            const similarities = [];
+            const differences = [];
+            const wholeLifeContribution = [];
+
+            // Check for universal patterns (inspired by React version logic)
+            const hasQuantumDetection = speciesData.every(s => s.perceive && s.perceive.quantum_detection);
+            const hasStrategicNonResponse = speciesData.every(s => s.apply && s.apply.strategic_non_response);
+            const hasCommunication = speciesData.every(s => s.relate && s.relate.communication_patterns);
+
+            if (hasQuantumDetection) {
+                similarities.push("All life forms demonstrate quantum coherence in their biological processes, revealing intelligence as a universal quantum phenomenon rather than a uniquely human trait.");
+            }
+            
+            if (hasStrategicNonResponse) {
+                similarities.push("Each demonstrates strategic non-response as sophisticated intelligence - knowing when NOT to act transcends species boundaries and represents a fundamental aspect of consciousness.");
+            }
+
+            if (hasCommunication) {
+                similarities.push("All forms of life have evolved complex relational communication that extends beyond individual boundaries, proving intelligence is fundamentally about connection rather than isolation.");
+            }
+
+            // Add universal intelligence patterns
+            similarities.push("Every species processes information through multiple channels simultaneously, demonstrating that consciousness operates through layered awareness systems.");
+            similarities.push("All demonstrate adaptive learning capabilities that allow real-time adjustment to environmental changes, showing intelligence as a dynamic rather than static phenomenon.");
+
+            // Generate differences based on species characteristics
+            if (speciesData.length >= 2) {
+                const species1 = speciesData[0];
+                const species2 = speciesData[1];
+                
+                differences.push(`${species1.name} and ${species2.name} operate on different temporal scales and spatial relationships, showing how intelligence adapts to different ecological niches and survival strategies.`);
+                differences.push(`Each species has evolved specialized consciousness capabilities - ${species1.name} through their unique perceptual systems, ${species2.name} through their distinct relational approaches - demonstrating the diversity of intelligence expressions.`);
+                
+                if (speciesData.length >= 3) {
+                    const species3 = speciesData[2];
+                    differences.push(`Together, ${species1.name}, ${species2.name}, and ${species3.name} represent different aspects of consciousness: individual innovation, collective coordination, and adaptive integration, showing how intelligence manifests across multiple scales.`);
+                }
+            }
+
+            // Generate life contributions
+            speciesData.forEach(species => {
+                if (species.life_contribution) {
+                    wholeLifeContribution.push(`${species.name} contributes to life's wellness through: ${species.life_contribution}`);
+                }
+            });
+
+            wholeLifeContribution.push(`Together, these different forms of intelligence create a more resilient and adaptive web of life - each contributing unique capabilities that strengthen the entire planetary consciousness network.`);
+
+            // Create the enhanced prompt for more sophisticated analysis
             const prompt = `Analyze the intelligence relationships between ${speciesNames} using the consciousness-expanding voice of an inspired professor sharing quantum awareness insights.
 
-Create insights about:
-1. **Shared Intelligence Patterns**: What consciousness patterns do they have in common?
-2. **Unique Intelligence Expressions**: How does each express intelligence differently?
-3. **Complementary Wisdom**: How do their different intelligence forms complement each other?
+Based on these species data insights, create deeper analysis about:
+
+**Shared Intelligence Patterns**: What consciousness patterns do they have in common beyond basic survival?
+**Unique Intelligence Expressions**: How does each express consciousness in ways that teach us about the diversity of awareness?
+**Complementary Wisdom**: How do their different intelligence forms create a symphony of consciousness that benefits all life?
+
+Include insights about how these species demonstrate that intelligence is not a hierarchy but a collaborative matrix where each form contributes irreplaceable wisdom.
 
 Write in the same poetic-scientific voice that makes quantum concepts accessible and wonder-filled. Format as JSON: { shared_patterns, unique_expressions, complementary_wisdom }`;
 
@@ -716,7 +895,7 @@ Write in the same poetic-scientific voice that makes quantum concepts accessible
                     },
                     body: JSON.stringify({
                         model: "claude-sonnet-4-20250514",
-                        max_tokens: 1000,
+                        max_tokens: 1200,
                         messages: [
                             { role: "user", content: prompt }
                         ]
@@ -726,14 +905,26 @@ Write in the same poetic-scientific voice that makes quantum concepts accessible
                 const data = await response.json();
                 let responseText = data.content[0].text;
                 responseText = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
-                return JSON.parse(responseText);
+                
+                const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                    responseText = jsonMatch[0];
+                }
+                
+                const apiResponse = JSON.parse(responseText);
+                
+                return {
+                    similarities: [apiResponse.shared_patterns],
+                    differences: [apiResponse.unique_expressions], 
+                    wholeLifeContribution: [apiResponse.complementary_wisdom, ...wholeLifeContribution]
+                };
 
             } catch (error) {
                 console.error('Error generating relationships:', error);
                 return {
-                    shared_patterns: "All species demonstrate sophisticated information processing and adaptive intelligence.",
-                    unique_expressions: "Each species has evolved specialized consciousness capabilities.",
-                    complementary_wisdom: "Together they create a symphony of intelligence approaches."
+                    similarities,
+                    differences,
+                    wholeLifeContribution
                 };
             }
         }
@@ -797,13 +988,22 @@ Use the same consciousness-expanding voice that naturally weaves quantum concept
                         <h3 class="wisdom-title">${icons[index]} ${species.name}</h3>
                         <div class="wisdom-content">
                             <p><strong>👁 Perceive:</strong> ${species.perceive_wisdom}</p>
-                            ${species.perceive_details ? `<ul style="margin: 8px 0 16px 20px;">${species.perceive_details.map(detail => `<li>${detail}</li>`).join('')}</ul>` : ''}
+                            ${species.perceive && Object.entries(species.perceive).length > 0 ? 
+                                Object.entries(species.perceive).map(([key, value]) => 
+                                    `<p><strong>${key.replace(/_/g, ' ')}:</strong> ${Array.isArray(value) ? value.join(', ') : value}</p>`
+                                ).join('') : ''}
                             
                             <p><strong>💚 Relate:</strong> ${species.relate_wisdom}</p>
-                            ${species.relate_details ? `<ul style="margin: 8px 0 16px 20px;">${species.relate_details.map(detail => `<li>${detail}</li>`).join('')}</ul>` : ''}
+                            ${species.relate && Object.entries(species.relate).length > 0 ? 
+                                Object.entries(species.relate).map(([key, value]) => 
+                                    `<p><strong>${key.replace(/_/g, ' ')}:</strong> ${Array.isArray(value) ? value.join(', ') : value}</p>`
+                                ).join('') : ''}
                             
                             <p><strong>✨ Apply:</strong> ${species.apply_wisdom}</p>
-                            ${species.apply_details ? `<ul style="margin: 8px 0 16px 20px;">${species.apply_details.map(detail => `<li>${detail}</li>`).join('')}</ul>` : ''}
+                            ${species.apply && Object.entries(species.apply).length > 0 ? 
+                                Object.entries(species.apply).map(([key, value]) => 
+                                    `<p><strong>${key.replace(/_/g, ' ')}:</strong> ${Array.isArray(value) ? value.join(', ') : value}</p>`
+                                ).join('') : ''}
                             
                             <div class="wisdom-essence">
                                 <strong>Essence:</strong> ${species.essence}
@@ -813,18 +1013,32 @@ Use the same consciousness-expanding voice that naturally weaves quantum concept
                 `;
             });
 
-            // Add relationship insights if multiple species
+            // Add the INCREDIBLE Intelligence Connections section (from React version!)
             if (researchResults.species.length > 1 && researchResults.relationships) {
-                wisdomHTML += `
-                    <div class="wisdom-card" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-color: #f59e0b;">
-                        <h3 class="wisdom-title">🤝 Intelligence Relationships</h3>
-                        <div class="wisdom-content">
-                            <p><strong>Shared Patterns:</strong> ${researchResults.relationships.shared_patterns}</p>
-                            <p><strong>Unique Expressions:</strong> ${researchResults.relationships.unique_expressions}</p>
-                            <p><strong>Complementary Wisdom:</strong> ${researchResults.relationships.complementary_wisdom}</p>
+                wisdomHTML = `
+                    <div class="connections-grid">
+                        <div class="connections-card similarities-card">
+                            <h3 class="connections-title">✨ How They're Alike</h3>
+                            <div class="connections-content">
+                                ${researchResults.relationships.similarities.map(sim => `<p>${sim}</p>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="connections-card differences-card">
+                            <h3 class="connections-title">⚡ How They're Different</h3>
+                            <div class="connections-content">
+                                ${researchResults.relationships.differences.map(diff => `<p>${diff}</p>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="connections-card wellness-card">
+                            <h3 class="connections-title">💚 Contribution to Life's Wellness</h3>
+                            <div class="connections-content">
+                                ${researchResults.relationships.wholeLifeContribution.map(contrib => `<p>${contrib}</p>`).join('')}
+                            </div>
                         </div>
                     </div>
-                `;
+                ` + wisdomHTML;
             }
 
             wisdomContent.innerHTML = wisdomHTML;
