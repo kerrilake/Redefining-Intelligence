@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unspeciated Research Assistant</title>
+    <title>Unspeciated: Redefining Intelligence - Research Explorer</title>
     <style>
         * {
             margin: 0;
@@ -77,6 +77,11 @@
             background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .ecosystem-btn.current {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
         }
 
         .card {
@@ -240,19 +245,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .wisdom-grid {
-            display: grid;
-            gap: 24px;
-        }
-
-        .wisdom-card {
-            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid #bfdbfe;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
-        }
-
         .connections-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -296,8 +288,17 @@
             line-height: 1.7;
         }
 
-        .connections-content p {
-            margin-bottom: 12px;
+        .wisdom-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .wisdom-card {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #bfdbfe;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
         }
 
         .wisdom-title {
@@ -407,68 +408,49 @@
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
-        /* PDF Print Styles */
-        @media print {
-            body { 
-                background: white !important; 
-                font-family: 'Times New Roman', serif !important;
-                line-height: 1.4 !important;
-            }
-            .container { 
-                max-width: none !important; 
-                padding: 0 !important; 
-            }
-            .no-print { 
-                display: none !important; 
-            }
-            .pdf-content {
-                color: black !important;
-            }
-            .pdf-header {
-                text-align: center;
-                margin-bottom: 30px;
-                border-bottom: 2px solid #333;
-                padding-bottom: 20px;
-            }
-            .pdf-title {
-                font-size: 22px !important;
-                font-weight: bold !important;
-                margin-bottom: 8px !important;
-            }
-            .pdf-subtitle {
-                font-size: 16px !important;
-                margin-bottom: 5px !important;
-            }
-            .pdf-section {
-                margin: 25px 0 !important;
-                page-break-inside: avoid;
-            }
-            .pdf-section-title {
-                font-size: 18px !important;
-                font-weight: bold !important;
-                margin-bottom: 15px !important;
-                color: #333 !important;
-            }
-            .pdf-species-title {
-                font-size: 16px !important;
-                font-weight: bold !important;
-                margin-bottom: 10px !important;
-                color: #000 !important;
-            }
-            .pdf-subsection {
-                margin: 15px 0 !important;
-            }
-            .pdf-subsection-title {
-                font-weight: bold !important;
-                margin-bottom: 8px !important;
-            }
-            .pdf-bullet {
-                margin: 5px 0 5px 20px !important;
-            }
+        .firebase-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            display: none;
         }
 
-        .hidden {
-            display: none;
+        .firebase-status.show {
+            display: block;
+            animation: fadeInSlide 0.5s ease;
+        }
+
+        .firebase-status.error {
+            background: rgba(239, 68, 68, 0.9);
+        }
+
+        @keyframes fadeInSlide {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .contribute-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-left: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .contribute-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -501,42 +483,47 @@
 </head>
 <body>
     <div class="container">
+        <!-- Firebase Status Indicator -->
+        <div id="firebaseStatus" class="firebase-status">
+            🔄 Connecting to Intelligence Database...
+        </div>
+
         <!-- Header -->
         <div class="header">
-            <h1 class="title">🧠 Unspeciated Research Assistant</h1>
-            <p class="subtitle">Redefining Intelligence Through the Perceive • Relate • Apply Framework</p>
-            <p class="tagline">Exploring quantum-enhanced consciousness across all life forms</p>
+            <h1 class="title">🧠 Unspeciated: Research Explorer</h1>
+            <p class="subtitle">Discovering Intelligence Through the Perceive • Relate • Apply Framework</p>
+            <p class="tagline">Exploring consciousness across all life forms with wonder and wisdom</p>
         </div>
 
         <!-- Ecosystem Navigation -->
         <div class="ecosystem-nav">
             <a href="https://integratedintelligencemap.netlify.app" target="_blank" class="ecosystem-btn">
-                🌸 Explore Intelligence Map
+                🌸 Intelligence Map
             </a>
             <a href="https://ai-consciousness-bridge.netlify.app" target="_blank" class="ecosystem-btn">
-                🤖 AI Consciousness Bridge
+                🤖 AI Bridge
             </a>
-            <span class="ecosystem-btn" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; cursor: default;">
-                📚 Research Agent (Current)
+            <span class="ecosystem-btn current">
+                📚 Research Explorer (Current)
             </span>
         </div>
 
         <!-- Input Form -->
         <div class="card">
-            <h2 class="card-title">Research Parameters</h2>
+            <h2 class="card-title">Explore Intelligence Connections</h2>
             
             <div class="species-inputs">
                 <div class="input-group">
                     <label class="label">First Life Form:</label>
-                    <input type="text" id="species1" class="input" placeholder="e.g., dolphins, mycorrhizal networks">
+                    <input type="text" id="species1" class="input" placeholder="e.g., dolphins, trees, bees">
                 </div>
                 <div class="input-group">
                     <label class="label">Second Life Form:</label>
-                    <input type="text" id="species2" class="input" placeholder="e.g., trees, humans, coral reefs">
+                    <input type="text" id="species2" class="input" placeholder="e.g., mycorrhizal networks, octopuses">
                 </div>
                 <div class="input-group">
                     <label class="label">Third Life Form (Optional):</label>
-                    <input type="text" id="species3" class="input" placeholder="e.g., crystals, bees, octopuses">
+                    <input type="text" id="species3" class="input" placeholder="e.g., coral reefs, crystalline structures">
                 </div>
             </div>
 
@@ -547,7 +534,7 @@
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="biomimicry" class="checkbox" checked>
-                    <label for="biomimicry" class="checkbox-label">Include Biomimicry Applications</label>
+                    <label for="biomimicry" class="checkbox-label">Include Biomimicry Insights</label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="human" class="checkbox">
@@ -555,43 +542,95 @@
                 </div>
             </div>
 
-            <button onclick="conductResearch()" id="researchBtn" class="btn">
-                🔍 Begin Quantum Intelligence Research
+            <button onclick="exploreIntelligence()" id="exploreBtn" class="btn">
+                🔍 Explore Intelligence Connections
+            </button>
+            <button onclick="openContributeForm()" class="contribute-btn">
+                ✨ Contribute Knowledge
             </button>
 
             <div id="progressDiv" class="progress">
                 <div class="spinner"></div>
-                <p class="progress-text" id="progressText">Initializing research...</p>
+                <p class="progress-text" id="progressText">Connecting to the global intelligence network...</p>
             </div>
         </div>
 
         <!-- Results Section -->
         <div id="resultsSection" class="results">
             <div class="completion-banner">
-                <p class="completion-text" id="completionTime">✅ Research completed</p>
-                <button onclick="generatePDF()" class="export-btn">📄 Break it down for me! (download a pdf)</button>
+                <p class="completion-text" id="completionTime">✅ Intelligence exploration completed</p>
+                <button onclick="generatePDF()" class="export-btn">📄 Download Beautiful Report</button>
             </div>
 
-            <!-- Species Wisdom Insights -->
+            <!-- Intelligence Connections -->
+            <div id="connectionsSection" class="card">
+                <h2 class="card-title">🌟 Intelligence Connections</h2>
+                <div id="connectionsContent" class="connections-grid">
+                    <!-- Connection cards will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Species Wisdom -->
             <div class="card">
-                <h2 class="card-title">🌟 Intelligence Connections & Contributions</h2>
+                <h2 class="card-title">💫 Species Wisdom Insights</h2>
                 <div id="wisdomContent" class="wisdom-grid">
                     <!-- Wisdom cards will be inserted here -->
                 </div>
             </div>
 
-            <!-- Special Sections -->
+            <!-- Special Insights -->
             <div class="special-sections" id="specialSections">
                 <!-- Special insight cards will be inserted here -->
             </div>
         </div>
     </div>
 
-    <script>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, doc, getDoc, setDoc, serverTimestamp, updateDoc, increment } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // FIREBASE CONFIG - REPLACE WITH YOUR CONFIG
+        const firebaseConfig = {
+            apiKey: "AIzaSyCa77WhcZbAy3o3GfPFUqLt_rdqUlK0G8s",
+            authDomain: "redefining-intelligence-suite.firebaseapp.com",
+            projectId: "redefining-intelligence-suite",
+            storageBucket: "redefining-intelligence-suite.firebasestorage.app",
+            messagingSenderId: "933861834236",
+            appId: "1:933861834236:web:fb95be168a8b352436c679",
+            measurementId: "G-51K9GYES06"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         let researchResults = null;
 
-        async function conductResearch() {
-            const btn = document.getElementById('researchBtn');
+        // Test Firebase connection
+        async function testFirebaseConnection() {
+            const statusEl = document.getElementById('firebaseStatus');
+            try {
+                const testDoc = await getDoc(doc(db, 'appData', 'stats'));
+                if (testDoc.exists()) {
+                    statusEl.innerHTML = '✅ Connected to Global Intelligence Database';
+                    statusEl.classList.add('show');
+                    setTimeout(() => statusEl.classList.remove('show'), 3000);
+                } else {
+                    throw new Error('Database not initialized');
+                }
+            } catch (error) {
+                console.error('Firebase connection error:', error);
+                statusEl.innerHTML = '❌ Database Connection Error';
+                statusEl.classList.add('show', 'error');
+            }
+        }
+
+        // Test connection on page load
+        testFirebaseConnection();
+
+        window.exploreIntelligence = async function() {
+            const btn = document.getElementById('exploreBtn');
             const progressDiv = document.getElementById('progressDiv');
             const progressText = document.getElementById('progressText');
             const resultsSection = document.getElementById('resultsSection');
@@ -601,13 +640,13 @@
             const species2 = document.getElementById('species2').value.trim();
             
             if (!species1 || !species2) {
-                alert('Please enter at least two life forms to research.');
+                alert('Please enter at least two life forms to explore their intelligence connections.');
                 return;
             }
 
             // UI Updates
             btn.disabled = true;
-            btn.innerHTML = '<div class="spinner"></div> Researching...';
+            btn.innerHTML = '<div class="spinner"></div> Exploring...';
             progressDiv.classList.add('show');
             resultsSection.classList.remove('show');
 
@@ -617,104 +656,140 @@
             const includeHuman = document.getElementById('human').checked;
 
             try {
-                // Phase 1: Individual Species Research
-                progressText.textContent = `Researching quantum intelligence patterns in ${species1}...`;
-                const species1Data = await researchSpecies(species1, { includeIndigenous, includeBiomimicry, includeHuman });
-                
-                progressText.textContent = `Exploring relational capacities of ${species2}...`;
-                const species2Data = await researchSpecies(species2, { includeIndigenous, includeBiomimicry, includeHuman });
-                
-                let species3Data = null;
-                if (species3) {
-                    progressText.textContent = `Investigating consciousness patterns of ${species3}...`;
-                    species3Data = await researchSpecies(species3, { includeIndigenous, includeBiomimicry, includeHuman });
-                }
+                // Check database first for existing data
+                progressText.textContent = 'Searching global intelligence database...';
+                const speciesData = await Promise.all([
+                    getOrCreateSpeciesData(species1, { includeIndigenous, includeBiomimicry, includeHuman }),
+                    getOrCreateSpeciesData(species2, { includeIndigenous, includeBiomimicry, includeHuman }),
+                    species3 ? getOrCreateSpeciesData(species3, { includeIndigenous, includeBiomimicry, includeHuman }) : null
+                ].filter(Boolean));
 
-                // Phase 2: Synthesis & Relationships
-                progressText.textContent = 'Synthesizing intelligence relationships...';
-                const relationshipInsights = await generateRelationshipInsights([species1Data, species2Data, species3Data].filter(Boolean));
+                // Generate relationships
+                progressText.textContent = 'Analyzing intelligence relationships...';
+                const relationships = await generateRelationshipInsights(speciesData);
 
-                // Phase 3: Special Sections
-                progressText.textContent = 'Generating unified physics insights...';
-                const specialSections = await generateSpecialSections([species1Data, species2Data, species3Data].filter(Boolean));
+                // Generate special sections
+                progressText.textContent = 'Creating unified insights...';
+                const specialSections = await generateSpecialSections(speciesData);
 
                 // Store results
                 researchResults = {
-                    species: [species1Data, species2Data, species3Data].filter(Boolean),
-                    relationships: relationshipInsights,
+                    species: speciesData,
+                    relationships: relationships,
                     special: specialSections,
                     timestamp: new Date().toLocaleString(),
                     options: { includeIndigenous, includeBiomimicry, includeHuman }
                 };
 
+                // Update database stats
+                await updateDoc(doc(db, 'appData', 'stats'), {
+                    totalSearches: increment(1),
+                    lastUpdated: serverTimestamp()
+                });
+
                 // Display results
                 displayResults();
 
             } catch (error) {
-                console.error('Research error:', error);
-                progressText.textContent = 'Research failed. Please try again.';
+                console.error('Exploration error:', error);
+                progressText.textContent = 'Exploration encountered an issue. Please try again.';
                 setTimeout(() => {
                     progressDiv.classList.remove('show');
                 }, 2000);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '🔍 Begin Quantum Intelligence Research';
+                btn.innerHTML = '🔍 Explore Intelligence Connections';
                 progressDiv.classList.remove('show');
             }
+        };
+
+        async function getOrCreateSpeciesData(speciesName, options) {
+            const speciesId = speciesName.toLowerCase().replace(/\s+/g, '-');
+            
+            try {
+                // Try to get existing data from Firebase
+                const docRef = doc(db, 'species', speciesId);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    // Update research count
+                    await updateDoc(docRef, {
+                        researchCount: increment(1),
+                        lastUpdated: serverTimestamp()
+                    });
+                    return data;
+                }
+            } catch (error) {
+                console.log('Database lookup failed, generating new data:', error);
+            }
+
+            // Generate new data using Claude API
+            const newData = await researchSpecies(speciesName, options);
+            
+            // Save to Firebase
+            try {
+                await setDoc(doc(db, 'species', speciesId), {
+                    ...newData,
+                    researchCount: 1,
+                    contributors: ['research-explorer'],
+                    verificationStatus: 'ai-generated',
+                    lastUpdated: serverTimestamp(),
+                    tags: generateTags(speciesName)
+                });
+            } catch (error) {
+                console.error('Failed to save to database:', error);
+            }
+
+            return newData;
+        }
+
+        function generateTags(speciesName) {
+            const name = speciesName.toLowerCase();
+            const tags = [];
+            
+            if (name.includes('tree') || name.includes('plant') || name.includes('forest')) {
+                tags.push('flora', 'plant-intelligence');
+            }
+            if (name.includes('dolphin') || name.includes('whale') || name.includes('marine')) {
+                tags.push('marine-mammals', 'aquatic-intelligence');
+            }
+            if (name.includes('bee') || name.includes('ant') || name.includes('insect')) {
+                tags.push('insect-intelligence', 'collective-intelligence');
+            }
+            if (name.includes('crystal') || name.includes('mineral')) {
+                tags.push('mineral-intelligence', 'quantum-coherence');
+            }
+            
+            return tags;
         }
 
         async function researchSpecies(speciesName, options) {
-            // Enhanced research prompt based on the React version's comprehensive approach
-            let prompt = `Based on current scientific knowledge, analyze ${speciesName} through the Redefining Intelligence framework that views intelligence as relational capacity (Perceive, Relate, Apply) rather than problem-solving hierarchy.
-
-Draw from established research in biology, neuroscience, quantum biology, and ecology to provide detailed insights about ${speciesName}. Focus on evidence-based findings while being open to quantum and unified physics perspectives.
-
-CRITICAL VOICE REQUIREMENTS:
-- Blend quantum consciousness concepts naturally into relatable language
-- Include specific researchers and their work where relevant
-- Write like "Trees sense the world through chemical conversations, reading the atmosphere like an ancient language passed down through generations"
-- Make complex concepts feel accessible and consciousness-expanding
+            let prompt = `Based on current scientific knowledge, analyze ${speciesName} through the Perceive • Relate • Apply framework for intelligence. Write in an inspiring, wonder-filled voice that makes consciousness research accessible.
 
 Provide comprehensive analysis in this JSON format:
 
 {
-  "species": "${speciesName}",
-  "perceive_wisdom": "1-2 sentences of poetic-scientific description",
-  "perceive": {
-    "sensory_systems": ["specific sensory abilities with details"],
-    "self_awareness_indicators": ["behaviors showing self-awareness beyond mirror tests"],
-    "quantum_detection": "any evidence of quantum sensitivity or coherence in biology",
-    "holofractographic_processing": "information processing at cellular/organism/system levels"
-  },
-  "relate_wisdom": "1-2 sentences of poetic-scientific description",
-  "relate": {
-    "communication_patterns": ["documented communication methods"],
-    "symbiotic_relationships": ["key relationships with other species"],
-    "quantum_connections": "evidence of non-local or instantaneous responses",
-    "ecosystem_role": "role in larger ecological systems"
-  },
-  "apply_wisdom": "1-2 sentences of poetic-scientific description", 
-  "apply": {
-    "strategic_non_response": "examples where not acting demonstrates intelligence",
-    "creative_applications": ["documented creative or innovative behaviors"],
-    "timing_wisdom": "evidence of sophisticated timing in behavior",
-    "coherence_optimization": "behaviors that optimize system-wide function"
-  },
+  "name": "${speciesName}",
+  "perceive_wisdom": "1-2 sentences of beautiful, scientific description",
+  "perceive_details": ["specific sensory abilities", "awareness indicators", "quantum sensitivity"],
+  "relate_wisdom": "1-2 sentences of beautiful, scientific description", 
+  "relate_details": ["communication methods", "symbiotic relationships", "ecosystem connections"],
+  "apply_wisdom": "1-2 sentences of beautiful, scientific description",
+  "apply_details": ["strategic behaviors", "creative applications", "timing wisdom"],
   "essence": "A profound 1-2 sentence summary of what this species teaches about consciousness",
   "unified_physics_integration": "connections to quantum biology or field theories",
-  "life_contribution": "how this species' intelligence benefits the web of life",
-  "research_gaps": ["specific areas where more research is needed"]
+  "life_contribution": "how this species' intelligence benefits the web of life"
 }`;
 
-            // Add enhancement options
             if (options.includeIndigenous) {
                 prompt += "\n\n- Include Indigenous wisdom perspectives where relevant";
             }
             if (options.includeBiomimicry) {
-                prompt += "\n\n- Include biomimicry applications and innovations inspired by this species";
+                prompt += "\n\n- Include biomimicry applications and innovations";
             }
             if (options.includeHuman) {
-                prompt += "\n\n- Include this species in equanimity with human intelligence (not human-centric)";
+                prompt += "\n\n- Include this species in equanimity with human intelligence";
             }
 
             try {
@@ -725,7 +800,7 @@ Provide comprehensive analysis in this JSON format:
                     },
                     body: JSON.stringify({
                         model: "claude-sonnet-4-20250514",
-                        max_tokens: 2000,
+                        max_tokens: 1500,
                         messages: [
                             { role: "user", content: prompt }
                         ]
@@ -738,86 +813,31 @@ Provide comprehensive analysis in this JSON format:
 
                 const data = await response.json();
                 let responseText = data.content[0].text;
-                
-                // Clean up response and parse JSON
                 responseText = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
                 
-                // Try to extract JSON if wrapped in other text
                 const jsonMatch = responseText.match(/\{[\s\S]*\}/);
                 if (jsonMatch) {
                     responseText = jsonMatch[0];
                 }
                 
                 const speciesData = JSON.parse(responseText);
-                
-                return {
-                    name: speciesName,
-                    ...speciesData
-                };
+                return speciesData;
 
             } catch (error) {
                 console.error(`Error researching ${speciesName}:`, error);
                 
-                // Enhanced fallback data based on React version's comprehensive approach
-                if (speciesName.toLowerCase().includes('tree')) {
-                    return {
-                        name: speciesName,
-                        perceive_wisdom: "Trees sense the world through chemical conversations, reading the atmosphere like an ancient language passed down through generations.",
-                        perceive: {
-                            sensory_systems: ["Chemical gradient detection", "Light spectrum analysis", "Vibration sensing through roots", "Electromagnetic field sensitivity"],
-                            self_awareness_indicators: ["Resource allocation decisions", "Territorial root boundary recognition", "Stress response communication"],
-                            quantum_detection: "Quantum efficiency in photosynthesis, potential quantum coherence in cellular processes",
-                            holofractographic_processing: "Fractal branching patterns, cellular information networks, root-mycorrhizal integration"
-                        },
-                        relate_wisdom: "Through mycorrhizal partnerships, trees share resources with strangers, creating forest-wide support networks that span across species boundaries.",
-                        relate: {
-                            communication_patterns: ["Chemical signaling through air and soil", "Root network electrical signals", "Mycorrhizal network information exchange"],
-                            symbiotic_relationships: ["Mycorrhizal fungi partnerships", "Nitrogen-fixing bacteria collaboration", "Animal seed dispersal relationships"],
-                            quantum_connections: "Instantaneous forest-wide chemical communication, synchronized seasonal responses",
-                            ecosystem_role: "Atmospheric regulation, soil stabilization, interspecies communication hub"
-                        },
-                        apply_wisdom: "Masters of strategic patience, trees know when to conserve energy and when to reach for growth, demonstrating the intelligence of restraint.",
-                        apply: {
-                            strategic_non_response: "Dormancy timing, selective resource sharing, strategic growth cessation",
-                            creative_applications: ["Architectural canopy optimization", "Chemical defense innovation", "Root system engineering"],
-                            timing_wisdom: "Seasonal synchronization, multi-year masting cycles, drought response timing",
-                            coherence_optimization: "Forest-wide resource distribution, atmospheric gas regulation, soil microbiome cultivation"
-                        },
-                        essence: "Trees embody the wisdom of deep time and interconnected generosity, showing us that true intelligence flows through relationship and patient presence.",
-                        unified_physics_integration: "Quantum coherence in photosynthesis, bioelectromagnetic communication networks, holofractographic scaling",
-                        life_contribution: "Atmospheric regulation, foundation for terrestrial ecosystems, interspecies communication networks",
-                        research_gaps: ["Quantum coherence in root networks", "Electromagnetic communication mechanisms", "Consciousness in plant systems"]
-                    };
-                }
-
-                // Add similar enhanced fallbacks for other common species...
+                // Enhanced fallback data
                 return {
                     name: speciesName,
                     perceive_wisdom: `${speciesName} demonstrates unique sensory adaptations that reveal hidden dimensions of reality.`,
-                    perceive: {
-                        sensory_systems: ["Species-specific sensory adaptations"],
-                        self_awareness_indicators: ["Behavioral complexity indicators"],
-                        quantum_detection: "Potential quantum biological processes",
-                        holofractographic_processing: "Multi-scale information processing"
-                    },
+                    perceive_details: ["Specialized sensory systems", "Environmental awareness", "Quantum sensitivity potential"],
                     relate_wisdom: `${speciesName} participates in complex networks of relationship and communication.`,
-                    relate: {
-                        communication_patterns: ["Communication methods"],
-                        symbiotic_relationships: ["Ecological relationships"],
-                        quantum_connections: "Non-local coordination potential",
-                        ecosystem_role: "Ecological niche function"
-                    },
+                    relate_details: ["Communication methods", "Ecological relationships", "System integration"],
                     apply_wisdom: `${speciesName} applies intelligence through perfectly adapted behaviors and responses.`,
-                    apply: {
-                        strategic_non_response: "Intelligent non-action examples",
-                        creative_applications: ["Adaptive behaviors"],
-                        timing_wisdom: "Temporal coordination",
-                        coherence_optimization: "System optimization"
-                    },
+                    apply_details: ["Strategic behaviors", "Adaptive responses", "Creative solutions"],
                     essence: `${speciesName} embodies a unique form of consciousness that enriches our understanding of intelligence.`,
-                    unified_physics_integration: "Quantum biology connections",
-                    life_contribution: "Ecological intelligence contribution",
-                    research_gaps: ["Research areas needed"]
+                    unified_physics_integration: "Potential quantum biological processes and field interactions",
+                    life_contribution: "Contributes unique intelligence patterns to the planetary consciousness network"
                 };
             }
         }
@@ -825,120 +845,14 @@ Provide comprehensive analysis in this JSON format:
         async function generateRelationshipInsights(speciesData) {
             const speciesNames = speciesData.map(s => s.name).join(", ");
             
-            // Generate comprehensive comparison like the React version
-            const similarities = [];
-            const differences = [];
-            const wholeLifeContribution = [];
+            const prompt = `Analyze the intelligence relationships between ${speciesNames} using a consciousness-expanding, wonder-filled voice.
 
-            // Check for universal patterns (inspired by React version logic)
-            const hasQuantumDetection = speciesData.every(s => s.perceive && s.perceive.quantum_detection);
-            const hasStrategicNonResponse = speciesData.every(s => s.apply && s.apply.strategic_non_response);
-            const hasCommunication = speciesData.every(s => s.relate && s.relate.communication_patterns);
+Create analysis about:
+**Shared Patterns**: What consciousness patterns do they have in common?
+**Unique Expressions**: How does each express consciousness differently?
+**Life Contributions**: How do they contribute to planetary intelligence together?
 
-            if (hasQuantumDetection) {
-                similarities.push("All life forms demonstrate quantum coherence in their biological processes, revealing intelligence as a universal quantum phenomenon rather than a uniquely human trait.");
-            }
-            
-            if (hasStrategicNonResponse) {
-                similarities.push("Each demonstrates strategic non-response as sophisticated intelligence - knowing when NOT to act transcends species boundaries and represents a fundamental aspect of consciousness.");
-            }
-
-            if (hasCommunication) {
-                similarities.push("All forms of life have evolved complex relational communication that extends beyond individual boundaries, proving intelligence is fundamentally about connection rather than isolation.");
-            }
-
-            // Add universal intelligence patterns
-            similarities.push("Every species processes information through multiple channels simultaneously, demonstrating that consciousness operates through layered awareness systems.");
-            similarities.push("All demonstrate adaptive learning capabilities that allow real-time adjustment to environmental changes, showing intelligence as a dynamic rather than static phenomenon.");
-
-            // Generate differences based on species characteristics
-            if (speciesData.length >= 2) {
-                const species1 = speciesData[0];
-                const species2 = speciesData[1];
-                
-                differences.push(`${species1.name} and ${species2.name} operate on different temporal scales and spatial relationships, showing how intelligence adapts to different ecological niches and survival strategies.`);
-                differences.push(`Each species has evolved specialized consciousness capabilities - ${species1.name} through their unique perceptual systems, ${species2.name} through their distinct relational approaches - demonstrating the diversity of intelligence expressions.`);
-                
-                if (speciesData.length >= 3) {
-                    const species3 = speciesData[2];
-                    differences.push(`Together, ${species1.name}, ${species2.name}, and ${species3.name} represent different aspects of consciousness: individual innovation, collective coordination, and adaptive integration, showing how intelligence manifests across multiple scales.`);
-                }
-            }
-
-            // Generate life contributions
-            speciesData.forEach(species => {
-                if (species.life_contribution) {
-                    wholeLifeContribution.push(`${species.name} contributes to life's wellness through: ${species.life_contribution}`);
-                }
-            });
-
-            wholeLifeContribution.push(`Together, these different forms of intelligence create a more resilient and adaptive web of life - each contributing unique capabilities that strengthen the entire planetary consciousness network.`);
-
-            // Create the enhanced prompt for more sophisticated analysis
-            const prompt = `Analyze the intelligence relationships between ${speciesNames} using the consciousness-expanding voice of an inspired professor sharing quantum awareness insights.
-
-Based on these species data insights, create deeper analysis about:
-
-**Shared Intelligence Patterns**: What consciousness patterns do they have in common beyond basic survival?
-**Unique Intelligence Expressions**: How does each express consciousness in ways that teach us about the diversity of awareness?
-**Complementary Wisdom**: How do their different intelligence forms create a symphony of consciousness that benefits all life?
-
-Include insights about how these species demonstrate that intelligence is not a hierarchy but a collaborative matrix where each form contributes irreplaceable wisdom.
-
-Write in the same poetic-scientific voice that makes quantum concepts accessible and wonder-filled. Format as JSON: { shared_patterns, unique_expressions, complementary_wisdom }`;
-
-            try {
-                const response = await fetch("https://api.anthropic.com/v1/messages", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        model: "claude-sonnet-4-20250514",
-                        max_tokens: 1200,
-                        messages: [
-                            { role: "user", content: prompt }
-                        ]
-                    })
-                });
-
-                const data = await response.json();
-                let responseText = data.content[0].text;
-                responseText = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
-                
-                const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-                if (jsonMatch) {
-                    responseText = jsonMatch[0];
-                }
-                
-                const apiResponse = JSON.parse(responseText);
-                
-                return {
-                    similarities: [apiResponse.shared_patterns],
-                    differences: [apiResponse.unique_expressions], 
-                    wholeLifeContribution: [apiResponse.complementary_wisdom, ...wholeLifeContribution]
-                };
-
-            } catch (error) {
-                console.error('Error generating relationships:', error);
-                return {
-                    similarities,
-                    differences,
-                    wholeLifeContribution
-                };
-            }
-        }
-
-        async function generateSpecialSections(speciesData) {
-            const speciesNames = speciesData.map(s => s.name).join(", ");
-            
-            const prompt = `Create three special insight sections about ${speciesNames} in the inspiring, quantum-aware voice:
-
-1. **Unified Physics Integration**: How quantum biology and consciousness might work in these species
-2. **Contribution to Life**: How these species contribute to planetary intelligence and ecosystem health  
-3. **Research Frontiers**: What fascinating research questions remain to explore
-
-Use the same consciousness-expanding voice that naturally weaves quantum concepts with accessible wonder. Format as JSON: { unified_physics, contribution_to_life, research_frontiers }`;
+Format as JSON: { "similarities": ["pattern1", "pattern2"], "differences": ["diff1", "diff2"], "wholeLifeContribution": ["contrib1", "contrib2"] }`;
 
             try {
                 const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -958,52 +872,122 @@ Use the same consciousness-expanding voice that naturally weaves quantum concept
                 const data = await response.json();
                 let responseText = data.content[0].text;
                 responseText = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+                
+                const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                    responseText = jsonMatch[0];
+                }
+                
+                return JSON.parse(responseText);
+
+            } catch (error) {
+                console.error('Error generating relationships:', error);
+                return {
+                    similarities: ["All demonstrate sophisticated consciousness patterns that extend beyond traditional intelligence measures."],
+                    differences: ["Each expresses intelligence through unique evolutionary adaptations and environmental relationships."],
+                    wholeLifeContribution: ["Together, these life forms create a richer, more resilient planetary consciousness network."]
+                };
+            }
+        }
+
+        async function generateSpecialSections(speciesData) {
+            const speciesNames = speciesData.map(s => s.name).join(", ");
+            
+            const prompt = `Create three special insight sections about ${speciesNames}:
+
+1. **Unified Physics Integration**: How quantum biology and consciousness might work in these species
+2. **Contribution to Life**: How these species contribute to planetary intelligence
+3. **Research Frontiers**: What research questions remain to explore
+
+Format as JSON: { "unified_physics": "text", "contribution_to_life": "text", "research_frontiers": "text" }`;
+
+            try {
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514",
+                        max_tokens: 800,
+                        messages: [
+                            { role: "user", content: prompt }
+                        ]
+                    })
+                });
+
+                const data = await response.json();
+                let responseText = data.content[0].text;
+                responseText = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
                 return JSON.parse(responseText);
 
             } catch (error) {
                 console.error('Error generating special sections:', error);
                 return {
-                    unified_physics: "These species may demonstrate quantum coherence in their biological processes.",
-                    contribution_to_life: "Each species contributes unique intelligence to the planetary consciousness network.",
-                    research_frontiers: "Future research could explore the quantum dimensions of their consciousness capabilities."
+                    unified_physics: "These species may demonstrate quantum coherence in their biological processes, suggesting consciousness operates at quantum scales.",
+                    contribution_to_life: "Each species contributes unique intelligence patterns to the planetary consciousness network, enhancing collective wisdom.",
+                    research_frontiers: "Future research could explore the quantum dimensions of consciousness and interspecies communication networks."
                 };
             }
         }
 
         function displayResults() {
             const resultsSection = document.getElementById('resultsSection');
+            const connectionsContent = document.getElementById('connectionsContent');
             const wisdomContent = document.getElementById('wisdomContent');
             const specialSections = document.getElementById('specialSections');
             const completionTime = document.getElementById('completionTime');
 
             // Update completion time
-            completionTime.textContent = `✅ Research completed: ${researchResults.timestamp}`;
+            completionTime.textContent = `✅ Intelligence exploration completed: ${researchResults.timestamp}`;
+
+            // Display connections if multiple species
+            if (researchResults.species.length > 1 && researchResults.relationships) {
+                connectionsContent.innerHTML = `
+                    <div class="connections-card similarities-card">
+                        <h3 class="connections-title">✨ Shared Intelligence Patterns</h3>
+                        <div class="connections-content">
+                            ${researchResults.relationships.similarities.map(sim => `<p>${sim}</p>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="connections-card differences-card">
+                        <h3 class="connections-title">🌈 Unique Expressions</h3>
+                        <div class="connections-content">
+                            ${researchResults.relationships.differences.map(diff => `<p>${diff}</p>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="connections-card wellness-card">
+                        <h3 class="connections-title">🌍 Life Contributions</h3>
+                        <div class="connections-content">
+                            ${researchResults.relationships.wholeLifeContribution.map(contrib => `<p>${contrib}</p>`).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('connectionsSection').style.display = 'none';
+            }
 
             // Display species wisdom
             let wisdomHTML = '';
             researchResults.species.forEach((species, index) => {
-                const icons = ['🔬', '🌿', '💫'];
+                const icons = ['🔬', '🌿', '💫', '🦋'];
                 wisdomHTML += `
                     <div class="wisdom-card">
                         <h3 class="wisdom-title">${icons[index]} ${species.name}</h3>
                         <div class="wisdom-content">
                             <p><strong>👁 Perceive:</strong> ${species.perceive_wisdom}</p>
-                            ${species.perceive && Object.entries(species.perceive).length > 0 ? 
-                                Object.entries(species.perceive).map(([key, value]) => 
-                                    `<p><strong>${key.replace(/_/g, ' ')}:</strong> ${Array.isArray(value) ? value.join(', ') : value}</p>`
-                                ).join('') : ''}
+                            ${species.perceive_details ? 
+                                `<p style="margin-left: 20px; font-size: 0.9em; color: #6b7280;">${species.perceive_details.join(' • ')}</p>` : ''}
                             
                             <p><strong>💚 Relate:</strong> ${species.relate_wisdom}</p>
-                            ${species.relate && Object.entries(species.relate).length > 0 ? 
-                                Object.entries(species.relate).map(([key, value]) => 
-                                    `<p><strong>${key.replace(/_/g, ' ')}:</strong> ${Array.isArray(value) ? value.join(', ') : value}</p>`
-                                ).join('') : ''}
+                            ${species.relate_details ? 
+                                `<p style="margin-left: 20px; font-size: 0.9em; color: #6b7280;">${species.relate_details.join(' • ')}</p>` : ''}
                             
                             <p><strong>✨ Apply:</strong> ${species.apply_wisdom}</p>
-                            ${species.apply && Object.entries(species.apply).length > 0 ? 
-                                Object.entries(species.apply).map(([key, value]) => 
-                                    `<p><strong>${key.replace(/_/g, ' ')}:</strong> ${Array.isArray(value) ? value.join(', ') : value}</p>`
-                                ).join('') : ''}
+                            ${species.apply_details ? 
+                                `<p style="margin-left: 20px; font-size: 0.9em; color: #6b7280;">${species.apply_details.join(' • ')}</p>` : ''}
                             
                             <div class="wisdom-essence">
                                 <strong>Essence:</strong> ${species.essence}
@@ -1012,34 +996,6 @@ Use the same consciousness-expanding voice that naturally weaves quantum concept
                     </div>
                 `;
             });
-
-            // Add the INCREDIBLE Intelligence Connections section (from React version!)
-            if (researchResults.species.length > 1 && researchResults.relationships) {
-                wisdomHTML = `
-                    <div class="connections-grid">
-                        <div class="connections-card similarities-card">
-                            <h3 class="connections-title">✨ How They're Alike</h3>
-                            <div class="connections-content">
-                                ${researchResults.relationships.similarities.map(sim => `<p>${sim}</p>`).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="connections-card differences-card">
-                            <h3 class="connections-title">⚡ How They're Different</h3>
-                            <div class="connections-content">
-                                ${researchResults.relationships.differences.map(diff => `<p>${diff}</p>`).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="connections-card wellness-card">
-                            <h3 class="connections-title">💚 Contribution to Life's Wellness</h3>
-                            <div class="connections-content">
-                                ${researchResults.relationships.wholeLifeContribution.map(contrib => `<p>${contrib}</p>`).join('')}
-                            </div>
-                        </div>
-                    </div>
-                ` + wisdomHTML;
-            }
 
             wisdomContent.innerHTML = wisdomHTML;
 
@@ -1065,13 +1021,12 @@ Use the same consciousness-expanding voice that naturally weaves quantum concept
             resultsSection.classList.add('show');
         }
 
-        function generatePDF() {
+        window.generatePDF = function() {
             if (!researchResults) {
                 alert('No research data available to export.');
                 return;
             }
 
-            // Get species names and current date
             const speciesNames = researchResults.species.map(s => s.name).join(', ');
             const currentDate = new Date().toLocaleDateString('en-US', { 
                 year: 'numeric', 
@@ -1079,251 +1034,103 @@ Use the same consciousness-expanding voice that naturally weaves quantum concept
                 day: 'numeric' 
             });
 
-            // Create HTML content
             let htmlContent = `<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Unspeciated Research: ${speciesNames}, ${currentDate}</title>
+    <title>Intelligence Exploration: ${speciesNames}</title>
     <style>
-        @media screen {
-            body { 
-                font-family: 'Times New Roman', serif; 
-                line-height: 1.4; 
-                margin: 40px; 
-                color: #333;
-                background: white;
-                max-width: 800px;
-                margin: 40px auto;
-            }
-            .print-btn {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #3b82f6;
-                color: white;
-                border: none;
-                padding: 12px 24px;
-                border-radius: 8px;
-                cursor: pointer;
-                font-weight: bold;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            }
-            .print-btn:hover {
-                background: #2563eb;
-            }
-        }
-        @media print {
-            .print-btn { display: none !important; }
-            body { 
-                margin: 0 !important; 
-                font-size: 12pt !important;
-            }
-        }
-        .pdf-header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 20px;
-        }
-        .pdf-title {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .pdf-subtitle {
-            font-size: 16px;
-            margin-bottom: 5px;
-            font-style: italic;
-        }
-        .pdf-meta {
-            font-size: 14px;
-            margin: 3px 0;
-        }
-        .pdf-section {
-            margin: 25px 0;
-            page-break-inside: avoid;
-        }
-        .pdf-section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #000;
-        }
-        .pdf-subsection {
-            margin: 15px 0;
-        }
-        .pdf-subsection-title {
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #000;
-        }
-        .pdf-footer {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 12px;
-            border-top: 1px solid #333;
-            padding-top: 20px;
-        }
-        ul { margin: 10px 0; padding-left: 20px; }
-        li { margin: 5px 0; }
+        body { font-family: 'Times New Roman', serif; line-height: 1.4; margin: 40px auto; max-width: 800px; color: #333; }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+        .title { font-size: 22px; font-weight: bold; margin-bottom: 8px; }
+        .subtitle { font-size: 16px; margin-bottom: 5px; font-style: italic; }
+        .section { margin: 25px 0; page-break-inside: avoid; }
+        .section-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #000; }
+        .species-section { margin: 20px 0; }
+        .species-title { font-size: 16px; font-weight: bold; margin-bottom: 10px; }
+        @media print { .no-print { display: none !important; } }
     </style>
 </head>
 <body>
-    <button class="print-btn" onclick="window.print()">🖨️ Print to PDF</button>
-    
-    <div class="pdf-header">
-        <div class="pdf-title">Unspeciated Research Report</div>
-        <div class="pdf-subtitle">Perceive • Relate • Apply Framework with Enhanced Dimensions</div>
-        <div class="pdf-meta">Research Focus: ${speciesNames}</div>
-        <div class="pdf-meta">Generated: ${currentDate}</div>
-        <div class="pdf-meta">Powered by Claude AI & Intuitive Learning Foundation Framework</div>
+    <div class="header">
+        <div class="title">Intelligence Exploration Report</div>
+        <div class="subtitle">Perceive • Relate • Apply Framework</div>
+        <div>Species: ${speciesNames}</div>
+        <div>Generated: ${currentDate}</div>
+        <div style="font-size: 12px; margin-top: 10px;">Unspeciated: Redefining Intelligence</div>
     </div>
 
-    <div class="pdf-section">
-        <div class="pdf-section-title">Executive Summary</div>
-        <p>This comprehensive research explores ${researchResults.species.length} ${researchResults.species.length === 1 ? 'species' : 'species'} through the revolutionary Perceive/Relate/Apply framework with enhanced intelligence dimensions. The research reveals sophisticated temporal awareness, energetic intelligence, collective wisdom, and adaptive strategies that challenge traditional views of intelligence. Each species demonstrates unique consciousness capabilities that contribute to planetary intelligence networks and offer profound lessons for human consciousness evolution.</p>
+    <div class="section">
+        <div class="section-title">Executive Summary</div>
+        <p>This exploration reveals the sophisticated consciousness capabilities of ${researchResults.species.length} life form${researchResults.species.length > 1 ? 's' : ''} through the Perceive/Relate/Apply framework. Each demonstrates unique intelligence patterns that contribute to our understanding of consciousness as a universal phenomenon extending far beyond human cognition.</p>
     </div>`;
 
-            // Add each species section
-            researchResults.species.forEach((species, index) => {
+            // Add connections if multiple species
+            if (researchResults.species.length > 1 && researchResults.relationships) {
                 htmlContent += `
-    <div class="pdf-section">
-        <div class="pdf-section-title">${species.name} Intelligence Profile</div>
-        <div class="pdf-meta">Research Type: AI-Enhanced Research</div>
-        
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">Key Wisdom Insight</div>
-            <p>${species.essence}</p>
+    <div class="section">
+        <div class="section-title">Intelligence Connections</div>
+        <div class="species-section">
+            <div class="species-title">Shared Patterns</div>
+            ${researchResults.relationships.similarities.map(sim => `<p>${sim}</p>`).join('')}
         </div>
+        <div class="species-section">
+            <div class="species-title">Unique Expressions</div>
+            ${researchResults.relationships.differences.map(diff => `<p>${diff}</p>`).join('')}
+        </div>
+        <div class="species-section">
+            <div class="species-title">Life Contributions</div>
+            ${researchResults.relationships.wholeLifeContribution.map(contrib => `<p>${contrib}</p>`).join('')}
+        </div>
+    </div>`;
+            }
 
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">PERCEIVE • How They Perceive Their World</div>
+            // Add species sections
+            researchResults.species.forEach(species => {
+                htmlContent += `
+    <div class="section">
+        <div class="section-title">${species.name} Intelligence Profile</div>
+        <div class="species-section">
+            <div class="species-title">Perceive: How They Sense Reality</div>
             <p>${species.perceive_wisdom}</p>
-            ${species.perceive_details ? 
-                '<ul>' + species.perceive_details.map(detail => `<li>${detail}</li>`).join('') + '</ul>' 
-                : ''}
         </div>
-
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">RELATE • How They Relate To Their World</div>
+        <div class="species-section">
+            <div class="species-title">Relate: How They Connect</div>
             <p>${species.relate_wisdom}</p>
-            ${species.relate_details ? 
-                '<ul>' + species.relate_details.map(detail => `<li>${detail}</li>`).join('') + '</ul>' 
-                : ''}
         </div>
-
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">APPLY • How They Apply Their Intelligence</div>
+        <div class="species-section">
+            <div class="species-title">Apply: How They Act</div>
             <p>${species.apply_wisdom}</p>
-            ${species.apply_details ? 
-                '<ul>' + species.apply_details.map(detail => `<li>${detail}</li>`).join('') + '</ul>' 
-                : ''}
         </div>
-
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">Temporal Intelligence</div>
-            <p>${species.name} demonstrates sophisticated temporal awareness and timing capabilities that span multiple time scales, from immediate environmental responses to seasonal and generational patterns.</p>
-        </div>
-
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">Energetic Intelligence</div>
-            <p>${species.name} exhibits remarkable energy optimization and sensitivity to bioelectric and electromagnetic fields, suggesting quantum biological processes in their consciousness systems.</p>
-        </div>
-
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">Collective Wisdom</div>
-            <p>${species.name} participates in collective intelligence networks that demonstrate emergent properties and shared knowledge transmission across communities.</p>
-        </div>
-
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">Adaptive Strategies</div>
-            <p>${species.name} shows remarkable adaptability through behavioral flexibility, learning capabilities, and innovative responses to environmental changes.</p>
-        </div>
-
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">Quantum Biology & Consciousness</div>
-            <p>Research suggests ${species.name} may demonstrate quantum coherence effects in biological processes, potentially explaining their sophisticated consciousness capabilities and environmental awareness.</p>
-        </div>
-
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">Human Learning Opportunities</div>
-            <p>${species.name} offers unique insights for human consciousness development, technological innovation, and understanding of intelligence as a multifaceted phenomenon that extends beyond traditional cognitive measures.</p>
-        </div>
-
-        <div class="pdf-subsection">
-            <div class="pdf-subsection-title">Conservation Intelligence</div>
-            <p>Understanding ${species.name} intelligence emphasizes the importance of protecting not just individual organisms but entire knowledge ecosystems and consciousness networks that support planetary intelligence.</p>
+        <div class="species-section">
+            <div class="species-title">Consciousness Essence</div>
+            <p style="font-style: italic;">${species.essence}</p>
         </div>
     </div>`;
             });
 
-            // Add special sections if available
-            if (researchResults.special) {
-                htmlContent += `
-    <div class="pdf-section">
-        <div class="pdf-section-title">Unified Physics Integration</div>
-        <p>${researchResults.special.unified_physics}</p>
-    </div>
-
-    <div class="pdf-section">
-        <div class="pdf-section-title">Contribution to Life</div>
-        <p>${researchResults.special.contribution_to_life}</p>
-    </div>
-
-    <div class="pdf-section">
-        <div class="pdf-section-title">Research Frontiers</div>
-        <p>${researchResults.special.research_frontiers}</p>
-    </div>`;
-            }
-
-            // Add Sources and Footer
             htmlContent += `
-    <div class="pdf-section">
-        <div class="pdf-section-title">Sources and References</div>
-        <ol>
-            <li>Traditional Ecological Knowledge databases</li>
-            <li>Quantum Biology Research Papers</li>
-            <li>Journal of Consciousness Studies</li>
-            <li>Indigenous Knowledge Systems Studies</li>
-            <li>Contemporary species behavior research</li>
-            <li>Ecosystem intelligence studies</li>
-            <li>Neuroscience and Cognitive Science Literature</li>
-            <li>Biomimicry Research Archives</li>
-        </ol>
-    </div>
-
-    <div class="pdf-footer">
-        <p><strong>Generated by Unspeciated Research Assistant • Intuitive Learning Foundation</strong></p>
-        <p>Perceive/Relate/Apply Framework by Kerri Lake</p>
-        <p>Visit: intuitivelearningfoundation.org • generateharmony.com • kerrilake.com</p>
+    <div style="margin-top: 40px; text-align: center; font-size: 12px; border-top: 1px solid #333; padding-top: 20px;">
+        <p><strong>Generated by Unspeciated: Redefining Intelligence Research Platform</strong></p>
+        <p>Intuitive Learning Foundation • kerrilake.com</p>
     </div>
 </body>
 </html>`;
 
-            // Create blob and download
             const blob = new Blob([htmlContent], { type: 'text/html' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Unspeciated Research: ${speciesNames}, ${currentDate}.html`;
+            a.download = `Intelligence Exploration - ${speciesNames} - ${currentDate}.html`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
+        };
 
-            // Also try to open in new tab as backup
-            try {
-                const printWindow = window.open();
-                if (printWindow) {
-                    printWindow.document.write(htmlContent);
-                    printWindow.document.close();
-                    printWindow.document.title = `Unspeciated Research: ${speciesNames}, ${currentDate}`;
-                }
-            } catch (e) {
-                console.log('Popup blocked, but HTML file downloaded successfully');
-            }
-        }
+        window.openContributeForm = function() {
+            alert('Contribute Knowledge feature coming soon! This will allow researchers worldwide to add their intelligence discoveries to our shared database.');
+        };
     </script>
 </body>
 </html>
