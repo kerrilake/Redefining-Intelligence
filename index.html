@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unspeciated: Redefining Intelligence Research Assistant</title>
+    <title>Unspeciated: Redefining Intelligence - Research Explorer</title>
     <style>
         * {
             margin: 0;
@@ -683,80 +683,7 @@
                     species3 ? getSecureSpeciesData(species3, { includeIndigenous, includeBiomimicry, includeHuman }) : null
                 ].filter(Boolean));
 
-                // Generate relationships (simplified for now)
-                progressText.textContent = 'Analyzing intelligence relationships...';
-                const relationships = generateSimpleRelationships(speciesData);
-
-                // Generate special sections (simplified for now)
-                progressText.textContent = 'Creating unified insights...';
-                const specialSections = generateSimpleSpecialSections(speciesData);
-
-                // Store results
-                researchResults = {
-                    species: speciesData,
-                    relationships: relationships,
-                    special: specialSections,
-                    timestamp: new Date().toLocaleString(),
-                    options: { includeIndigenous, includeBiomimicry, includeHuman }
-                };
-
-                // Display results
-                displayResults();
-
-            } catch (error) {
-                console.error('Exploration error:', error);
-                progressText.textContent = `Exploration encountered an issue: ${error.message}. Please try again.`;
-                setTimeout(() => {
-                    progressDiv.classList.remove('show');
-                }, 3000);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '🔍 Explore Intelligence Connections';
-                progressDiv.classList.remove('show');
-            }
-        };
-
-        async function getSecureSpeciesData(speciesName, options) {
-    try {
-        const response = await fetch(FIREBASE_SPECIES_API, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ species: speciesName })
-        });
-
-        if (!response.ok) {
-            throw new Error(`API Error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        
-        // Convert the Firebase response to our expected format
-        const intelligence = data.intelligence;
-        
-        return {
-            name: speciesName,
-            perceive_wisdom: extractWisdom(intelligence, 'perceive') || `${speciesName} demonstrates unique sensory adaptations that reveal hidden dimensions of reality.`,
-            perceive_details: ["Specialized sensory systems", "Environmental awareness", "Quantum sensitivity potential"],
-            relate_wisdom: extractWisdom(intelligence, 'relate') || `${speciesName} participates in complex networks of relationship and communication.`,
-            relate_details: ["Communication methods", "Ecological relationships", "System integration"],
-            apply_wisdom: extractWisdom(intelligence, 'apply') || `${speciesName} applies intelligence through perfectly adapted behaviors and responses.`,
-            apply_details: ["Strategic behaviors", "Adaptive responses", "Creative solutions"],
-            essence: extractEssence(intelligence) || `${speciesName} embodies a unique form of consciousness that enriches our understanding of intelligence.`,
-            unified_physics_integration: "Potential quantum biological processes and field interactions",
-            life_contribution: "Contributes unique intelligence patterns to the planetary consciousness network",
-            cached: data.cached || false,
-            timestamp: data.timestamp
-        };
-
-    } catch (error) {
-        console.error(`Error getting data for ${speciesName}:`, error);
-        throw error;
-    }
-}
-        
-function generateSimpleRelationships(speciesData) {
+                function generateSimpleRelationships(speciesData) {
     const speciesNames = speciesData.map(s => s.name).join(', ');
     
     // Extract consciousness themes from the species data
@@ -788,32 +715,8 @@ function generateSimpleRelationships(speciesData) {
         ]
     };
 }
-        
-        function extractWisdom(text, type) {
-            // Simple extraction - look for relevant keywords
-            const sentences = text.split('.').filter(s => s.trim().length > 0);
-            const keywords = {
-                'perceive': ['sens', 'detect', 'perceiv', 'aware', 'sight', 'hear', 'feel'],
-                'relate': ['communicat', 'social', 'relationship', 'interact', 'connect'],
-                'apply': ['behavior', 'strategy', 'problem', 'adapt', 'creat', 'innovat']
-            };
-            
-            const relevantSentences = sentences.filter(sentence => 
-                keywords[type].some(keyword => 
-                    sentence.toLowerCase().includes(keyword)
-                )
-            );
-            
-            return relevantSentences.slice(0, 2).join('.') + '.';
-        }
 
-        function extractEssence(text) {
-            // Extract the most meaningful sentence
-            const sentences = text.split('.').filter(s => s.trim().length > 0);
-            return sentences[sentences.length - 1] + '.';
-        }
-
-        function generateSimpleSpecialSections(speciesData) {
+                function generateSimpleSpecialSections(speciesData) {
     const speciesNames = speciesData.map(s => s.name).join(', ');
     const quantumConnections = extractQuantumConnections(speciesData);
     const lifeContributions = extractLifeContributions(speciesData);
@@ -828,23 +731,74 @@ function generateSimpleRelationships(speciesData) {
             `• Non-local consciousness connections transcending space-time`
         ],
         contribution_to_life: [
-            `Each species contributes irreplaceable intelligence frequencies to the planetary consciousness orchestra, creating harmonies that enhance life's creative potential across all scales of existence. ${lifeContributions.join(', ')} weaving the living fabric of Earth's awareness.`,
-            `• Unique intelligence frequencies strengthening collective wisdom`,
-            `• Ecosystem consciousness coordination and enhancement`,
-            `• Planetary healing through specialized awareness contributions`,
-            `• Cross-species communication bridging different reality perspectives`
-        ],
-        research_frontiers: [
-            `Future consciousness research will explore how these intelligence networks (${speciesNames}) participate in what appears to be a living, aware planet developing its own form of meta-consciousness. ${researchFrontiers.join(' alongside ')} revealing new dimensions of what it means to be alive.`,
-            `• Quantum biology research in interspecies communication`,
-            `• Consciousness field mapping and measurement technologies`,
-            `• AI-assisted interspecies communication protocol development`,
-            `• Planetary consciousness monitoring and enhancement systems`
-        ]
-    };
-}
+            `Each species contributes irreplaceable intelligence frequencies to the planetary consciousness orchestra, creating harmonies that enhance life's creative potential across all scales of existence. ${lifeContributions.join(', ')} weaving the li
 
-        // Helper functions to extract consciousness themes from species data
+                // Store results
+                researchResults = {
+                    species: speciesData,
+                    relationships: relationships,
+                    special: specialSections,
+                    timestamp: new Date().toLocaleString(),
+                    options: { includeIndigenous, includeBiomimicry, includeHuman }
+                };
+
+                // Display results
+                displayResults();
+
+            } catch (error) {
+                console.error('Exploration error:', error);
+                progressText.textContent = `Exploration encountered an issue: ${error.message}. Please try again.`;
+                setTimeout(() => {
+                    progressDiv.classList.remove('show');
+                }, 3000);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🔍 Explore Intelligence Connections';
+                progressDiv.classList.remove('show');
+            }
+        };
+
+        async function getSecureSpeciesData(speciesName, options) {
+            try {
+                const response = await fetch(FIREBASE_SPECIES_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ species: speciesName })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Convert the Firebase response to our expected format
+                const intelligence = data.intelligence;
+                
+                return {
+                    name: speciesName,
+                    perceive_wisdom: extractWisdom(intelligence, 'perceive') || `${speciesName} demonstrates unique sensory adaptations that reveal hidden dimensions of reality.`,
+                    perceive_details: ["Specialized sensory systems", "Environmental awareness", "Quantum sensitivity potential"],
+                    relate_wisdom: extractWisdom(intelligence, 'relate') || `${speciesName} participates in complex networks of relationship and communication.`,
+                    relate_details: ["Communication methods", "Ecological relationships", "System integration"],
+                    apply_wisdom: extractWisdom(intelligence, 'apply') || `${speciesName} applies intelligence through perfectly adapted behaviors and responses.`,
+                    apply_details: ["Strategic behaviors", "Adaptive responses", "Creative solutions"],
+                    essence: extractEssence(intelligence) || `${speciesName} embodies a unique form of consciousness that enriches our understanding of intelligence.`,
+                    unified_physics_integration: "Potential quantum biological processes and field interactions",
+                    life_contribution: "Contributes unique intelligence patterns to the planetary consciousness network",
+                    cached: data.cached || false,
+                    timestamp: data.timestamp
+                };
+
+            } catch (error) {
+                console.error(`Error getting data for ${speciesName}:`, error);
+                throw error;
+            }
+        }
+
+// Helper functions to extract consciousness themes from species data
 
 function extractConsciousnessThemes(speciesData) {
     const themes = [];
@@ -967,6 +921,48 @@ function extractResearchFrontiers(speciesData) {
     return frontiers.slice(0, 2);
 }
         
+        function extractWisdom(text, type) {
+            // Simple extraction - look for relevant keywords
+            const sentences = text.split('.').filter(s => s.trim().length > 0);
+            const keywords = {
+                'perceive': ['sens', 'detect', 'perceiv', 'aware', 'sight', 'hear', 'feel'],
+                'relate': ['communicat', 'social', 'relationship', 'interact', 'connect'],
+                'apply': ['behavior', 'strategy', 'problem', 'adapt', 'creat', 'innovat']
+            };
+            
+            const relevantSentences = sentences.filter(sentence => 
+                keywords[type].some(keyword => 
+                    sentence.toLowerCase().includes(keyword)
+                )
+            );
+            
+            return relevantSentences.slice(0, 2).join('.') + '.';
+        }
+
+        function extractEssence(text) {
+            // Extract the most meaningful sentence
+            const sentences = text.split('.').filter(s => s.trim().length > 0);
+            return sentences[sentences.length - 1] + '.';
+        }
+
+        function generateSimpleRelationships(speciesData) {
+            const speciesNames = speciesData.map(s => s.name).join(', ');
+            return {
+                similarities: [`All demonstrate sophisticated consciousness patterns that extend beyond traditional intelligence measures.`],
+                differences: [`Each expresses intelligence through unique evolutionary adaptations and environmental relationships.`],
+                wholeLifeContribution: [`Together, ${speciesNames} create a richer, more resilient planetary consciousness network.`]
+            };
+        }
+
+        function generateSimpleSpecialSections(speciesData) {
+            const speciesNames = speciesData.map(s => s.name).join(', ');
+            return {
+                unified_physics: `These species (${speciesNames}) may demonstrate quantum coherence in their biological processes, suggesting consciousness operates at quantum scales.`,
+                contribution_to_life: `Each species contributes unique intelligence patterns to the planetary consciousness network, enhancing collective wisdom.`,
+                research_frontiers: `Future research could explore the quantum dimensions of consciousness and interspecies communication networks among ${speciesNames}.`
+            };
+        }
+
         function displayResults() {
             const resultsSection = document.getElementById('resultsSection');
             const connectionsContent = document.getElementById('connectionsContent');
@@ -978,74 +974,84 @@ function extractResearchFrontiers(speciesData) {
             completionTime.textContent = `✅ Intelligence exploration completed: ${researchResults.timestamp}`;
 
             // Display connections if multiple species
-if (researchResults.species.length > 1 && researchResults.relationships) {
-    connectionsContent.innerHTML = `
-        <div class="connections-card similarities-card">
-            <h3 class="connections-title">✨ Shared Intelligence Patterns</h3>
-            <div class="connections-content">
-                <p>${researchResults.relationships.similarities[0]}</p>
-                <ul style="margin-top: 12px; margin-left: 16px;">
-                    ${researchResults.relationships.similarities.slice(1).map(point => `<li style="margin-bottom: 6px; color: #374151;">${point}</li>`).join('')}
-                </ul>
-            </div>
-        </div>
-        
-        <div class="connections-card differences-card">
-            <h3 class="connections-title">🌈 Unique Expressions</h3>
-            <div class="connections-content">
-                <p>${researchResults.relationships.differences[0]}</p>
-                <ul style="margin-top: 12px; margin-left: 16px;">
-                    ${researchResults.relationships.differences.slice(1).map(point => `<li style="margin-bottom: 6px; color: #374151;">${point}</li>`).join('')}
-                </ul>
-            </div>
-        </div>
-        
-        <div class="connections-card wellness-card">
-            <h3 class="connections-title">🌍 Life Contributions</h3>
-            <div class="connections-content">
-                <p>${researchResults.relationships.wholeLifeContribution[0]}</p>
-                <ul style="margin-top: 12px; margin-left: 16px;">
-                    ${researchResults.relationships.wholeLifeContribution.slice(1).map(point => `<li style="margin-bottom: 6px; color: #374151;">${point}</li>`).join('')}
-                </ul>
-            </div>
-        </div>
-    `;
-} else {
-    document.getElementById('connectionsSection').style.display = 'none';
-}
+            if (researchResults.species.length > 1 && researchResults.relationships) {
+                connectionsContent.innerHTML = `
+                    <div class="connections-card similarities-card">
+                        <h3 class="connections-title">✨ Shared Intelligence Patterns</h3>
+                        <div class="connections-content">
+                            ${researchResults.relationships.similarities.map(sim => `<p>${sim}</p>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="connections-card differences-card">
+                        <h3 class="connections-title">🌈 Unique Expressions</h3>
+                        <div class="connections-content">
+                            ${researchResults.relationships.differences.map(diff => `<p>${diff}</p>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="connections-card wellness-card">
+                        <h3 class="connections-title">🌍 Life Contributions</h3>
+                        <div class="connections-content">
+                            ${researchResults.relationships.wholeLifeContribution.map(contrib => `<p>${contrib}</p>`).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('connectionsSection').style.display = 'none';
+            }
+
+            // Display species wisdom
+            let wisdomHTML = '';
+            researchResults.species.forEach((species, index) => {
+                const icons = ['🔬', '🌿', '💫', '🦋'];
+                const cachedIndicator = species.cached ? 
+                    '<span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 8px;">📚 Cached</span>' : 
+                    '<span style="background: #f59e0b; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 8px;">✨ New</span>';
+                
+                wisdomHTML += `
+                    <div class="wisdom-card">
+                        <h3 class="wisdom-title">${icons[index]} ${species.name} ${cachedIndicator}</h3>
+                        <div class="wisdom-content">
+                            <p><strong>👁 Perceive:</strong> ${species.perceive_wisdom}</p>
+                            ${species.perceive_details ? 
+                                `<p style="margin-left: 20px; font-size: 0.9em; color: #6b7280;">${species.perceive_details.join(' • ')}</p>` : ''}
+                            
+                            <p><strong>💚 Relate:</strong> ${species.relate_wisdom}</p>
+                            ${species.relate_details ? 
+                                `<p style="margin-left: 20px; font-size: 0.9em; color: #6b7280;">${species.relate_details.join(' • ')}</p>` : ''}
+                            
+                            <p><strong>✨ Apply:</strong> ${species.apply_wisdom}</p>
+                            ${species.apply_details ? 
+                                `<p style="margin-left: 20px; font-size: 0.9em; color: #6b7280;">${species.apply_details.join(' • ')}</p>` : ''}
+                            
+                            <div class="wisdom-essence">
+                                <strong>Essence:</strong> ${species.essence}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            wisdomContent.innerHTML = wisdomHTML;
 
             // Display special sections
-if (researchResults.special) {
-    specialSections.innerHTML = `
-        <div class="special-card physics-card">
-            <h3 class="special-title">⚡ Unified Physics Integration</h3>
-            <div class="special-content">
-                <p>${researchResults.special.unified_physics[0]}</p>
-                <ul style="margin-top: 12px; margin-left: 16px;">
-                    ${researchResults.special.unified_physics.slice(1).map(point => `<li style="margin-bottom: 6px; color: #374151;">${point}</li>`).join('')}
-                </ul>
-            </div>
-        </div>
-        <div class="special-card contribution-card">
-            <h3 class="special-title">🌱 Contribution to Life</h3>
-            <div class="special-content">
-                <p>${researchResults.special.contribution_to_life[0]}</p>
-                <ul style="margin-top: 12px; margin-left: 16px;">
-                    ${researchResults.special.contribution_to_life.slice(1).map(point => `<li style="margin-bottom: 6px; color: #374151;">${point}</li>`).join('')}
-                </ul>
-            </div>
-        </div>
-        <div class="special-card research-card">
-            <h3 class="special-title">🔬 Research Frontiers</h3>
-            <div class="special-content">
-                <p>${researchResults.special.research_frontiers[0]}</p>
-                <ul style="margin-top: 12px; margin-left: 16px;">
-                    ${researchResults.special.research_frontiers.slice(1).map(point => `<li style="margin-bottom: 6px; color: #374151;">${point}</li>`).join('')}
-                </ul>
-            </div>
-        </div>
-    `;
-}
+            if (researchResults.special) {
+                specialSections.innerHTML = `
+                    <div class="special-card physics-card">
+                        <h3 class="special-title">⚡ Unified Physics Integration</h3>
+                        <div class="special-content">${researchResults.special.unified_physics}</div>
+                    </div>
+                    <div class="special-card contribution-card">
+                        <h3 class="special-title">🌱 Contribution to Life</h3>
+                        <div class="special-content">${researchResults.special.contribution_to_life}</div>
+                    </div>
+                    <div class="special-card research-card">
+                        <h3 class="special-title">🔬 Research Frontiers</h3>
+                        <div class="special-content">${researchResults.special.research_frontiers}</div>
+                    </div>
+                `;
+            }
 
             // Show results
             resultsSection.classList.add('show');
