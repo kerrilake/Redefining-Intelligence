@@ -683,55 +683,13 @@
                     species3 ? getSecureSpeciesData(species3, { includeIndigenous, includeBiomimicry, includeHuman }) : null
                 ].filter(Boolean));
 
-                function generateSimpleRelationships(speciesData) {
-    const speciesNames = speciesData.map(s => s.name).join(', ');
-    
-    // Extract consciousness themes from the species data
-    const consciousnessThemes = extractConsciousnessThemes(speciesData);
-    const uniqueGifts = extractUniqueGifts(speciesData);
-    const collaborativePatterns = extractCollaborativePatterns(speciesData);
-    
-    return {
-        similarities: [
-            `All weave consciousness threads through quantum fields that extend far beyond cognitive measurement, participating in the living tapestry of planetary awareness through frequencies older than human civilization. ${consciousnessThemes.join(' and ')} reveal how intelligence operates as a symphony rather than a hierarchy.`,
-            `• Quantum coherence in biological processes`,
-            `• Electromagnetic field sensitivity and interaction`, 
-            `• Participation in planetary consciousness networks`,
-            `• Access to non-linear information processing`
-        ],
-        differences: [
-            `Each dances their unique intelligence signature through millions of years of conscious co-evolution, expressing Earth's creativity through specialized perceptual gifts that complement and enhance the whole. ${uniqueGifts.join(', ')} demonstrate how diversity strengthens the planetary mind.`,
-            `• Specialized sensory adaptations for different environments`,
-            `• Unique communication frequencies and methods`,
-            `• Distinct temporal awareness and time perception`,
-            `• Individual contributions to ecological consciousness networks`
-        ],
-        wholeLifeContribution: [
-            `Together, these consciousness streams create resilience networks that pulse through sacred geometric patterns, strengthening the planetary mind through their collaborative intelligence symphony. ${collaborativePatterns.join(' while ')} in perfect ecological harmony.`,
-            `• Enhanced planetary consciousness resilience`,
-            `• Distributed intelligence network strengthening`,
-            `• Cross-species wisdom sharing and amplification`,
-            `• Collective problem-solving for global challenges`
-        ]
-    };
-}
+                // Generate relationships (simplified for now)
+                progressText.textContent = 'Analyzing intelligence relationships...';
+                const relationships = generateSimpleRelationships(speciesData);
 
-                function generateSimpleSpecialSections(speciesData) {
-    const speciesNames = speciesData.map(s => s.name).join(', ');
-    const quantumConnections = extractQuantumConnections(speciesData);
-    const lifeContributions = extractLifeContributions(speciesData);
-    const researchFrontiers = extractResearchFrontiers(speciesData);
-    
-    return {
-        unified_physics: [
-            `These consciousness expressions (${speciesNames}) operate through quantum coherence fields that suggest intelligence itself functions as a fundamental force of nature, like gravity or electromagnetism. ${quantumConnections.join(' and ')} demonstrate how awareness shapes reality at the quantum scale.`,
-            `• Quantum entanglement in biological decision-making`,
-            `• Morphic field interactions across species boundaries`,
-            `• Coherent electromagnetic field generation and sensing`,
-            `• Non-local consciousness connections transcending space-time`
-        ],
-        contribution_to_life: [
-            `Each species contributes irreplaceable intelligence frequencies to the planetary consciousness orchestra, creating harmonies that enhance life's creative potential across all scales of existence. ${lifeContributions.join(', ')} weaving the li
+                // Generate special sections (simplified for now)
+                progressText.textContent = 'Creating unified insights...';
+                const specialSections = generateSimpleSpecialSections(speciesData);
 
                 // Store results
                 researchResults = {
@@ -798,129 +756,6 @@
             }
         }
 
-// Helper functions to extract consciousness themes from species data
-
-function extractConsciousnessThemes(speciesData) {
-    const themes = [];
-    
-    speciesData.forEach(species => {
-        // Extract key consciousness concepts from their wisdom text
-        const text = `${species.perceive_wisdom} ${species.relate_wisdom} ${species.apply_wisdom}`.toLowerCase();
-        
-        if (text.includes('frequency') || text.includes('vibrat') || text.includes('resona')) {
-            themes.push(`${species.name}'s frequency-based awareness`);
-        } else if (text.includes('network') || text.includes('connect') || text.includes('communicat')) {
-            themes.push(`${species.name}'s consciousness networking`);
-        } else if (text.includes('sens') || text.includes('detect') || text.includes('perceiv')) {
-            themes.push(`${species.name}'s expanded sensory awareness`);
-        } else {
-            themes.push(`${species.name}'s unique consciousness expression`);
-        }
-    });
-    
-    return themes.slice(0, 2); // Keep it concise
-}
-
-function extractUniqueGifts(speciesData) {
-    const gifts = [];
-    
-    speciesData.forEach(species => {
-        const perceiveText = species.perceive_wisdom.toLowerCase();
-        
-        if (perceiveText.includes('electromagnetic') || perceiveText.includes('magnetic')) {
-            gifts.push(`${species.name}'s electromagnetic field mastery`);
-        } else if (perceiveText.includes('chemical') || perceiveText.includes('scent') || perceiveText.includes('smell')) {
-            gifts.push(`${species.name}'s chemical consciousness communication`);
-        } else if (perceiveText.includes('sound') || perceiveText.includes('acoustic') || perceiveText.includes('hear')) {
-            gifts.push(`${species.name}'s acoustic awareness dimensions`);
-        } else if (perceiveText.includes('light') || perceiveText.includes('visual') || perceiveText.includes('see')) {
-            gifts.push(`${species.name}'s light-based perception mastery`);
-        } else {
-            gifts.push(`${species.name}'s specialized perceptual gifts`);
-        }
-    });
-    
-    return gifts;
-}
-
-function extractCollaborativePatterns(speciesData) {
-    const patterns = [];
-    
-    speciesData.forEach(species => {
-        const relateText = species.relate_wisdom.toLowerCase();
-        
-        if (relateText.includes('social') || relateText.includes('group') || relateText.includes('collective')) {
-            patterns.push(`${species.name} orchestrates collective intelligence`);
-        } else if (relateText.includes('ecosystem') || relateText.includes('environment') || relateText.includes('habitat')) {
-            patterns.push(`${species.name} harmonizes ecosystem consciousness`);
-        } else if (relateText.includes('communicat') || relateText.includes('signal') || relateText.includes('language')) {
-            patterns.push(`${species.name} facilitates consciousness communication`);
-        } else {
-            patterns.push(`${species.name} contributes collaborative awareness`);
-        }
-    });
-    
-    return patterns;
-}
-
-function extractQuantumConnections(speciesData) {
-    const connections = [];
-    
-    speciesData.forEach(species => {
-        const allText = `${species.perceive_wisdom} ${species.relate_wisdom} ${species.apply_wisdom}`.toLowerCase();
-        
-        if (allText.includes('instant') || allText.includes('immediate') || allText.includes('synchron')) {
-            connections.push(`${species.name}'s instantaneous awareness responses suggest quantum entanglement`);
-        } else if (allText.includes('field') || allText.includes('energy') || allText.includes('electromagnetic')) {
-            connections.push(`${species.name}'s field-based consciousness interactions`);
-        } else {
-            connections.push(`${species.name}'s non-local awareness capabilities`);
-        }
-    });
-    
-    return connections.slice(0, 2);
-}
-
-function extractLifeContributions(speciesData) {
-    const contributions = [];
-    
-    speciesData.forEach(species => {
-        const applyText = species.apply_wisdom.toLowerCase();
-        
-        if (applyText.includes('heal') || applyText.includes('restor') || applyText.includes('regenerat')) {
-            contributions.push(`${species.name} provides healing consciousness frequencies`);
-        } else if (applyText.includes('balance') || applyText.includes('harmony') || applyText.includes('stabili')) {
-            contributions.push(`${species.name} maintains ecosystem consciousness balance`);
-        } else if (applyText.includes('creat') || applyText.includes('innovat') || applyText.includes('adapt')) {
-            contributions.push(`${species.name} enhances planetary creative intelligence`);
-        } else {
-            contributions.push(`${species.name} strengthens collective consciousness resilience`);
-        }
-    });
-    
-    return contributions;
-}
-
-function extractResearchFrontiers(speciesData) {
-    const frontiers = [];
-    
-    speciesData.forEach(species => {
-        if (species.name.toLowerCase().includes('dolphin') || species.name.toLowerCase().includes('whale')) {
-            frontiers.push('sonar-consciousness interface research');
-        } else if (species.name.toLowerCase().includes('tree') || species.name.toLowerCase().includes('forest')) {
-            frontiers.push('mycorrhizal consciousness network mapping');
-        } else if (species.name.toLowerCase().includes('bee') || species.name.toLowerCase().includes('ant')) {
-            frontiers.push('collective intelligence algorithm development');
-        } else if (species.name.toLowerCase().includes('bird') || species.name.toLowerCase().includes('eagle')) {
-            frontiers.push('magnetic field consciousness navigation studies');
-        } else {
-            frontiers.push(`${species.name.toLowerCase()}-human consciousness communication protocols`);
-        }
-    });
-    
-    return frontiers.slice(0, 2);
-}
-        
         function extractWisdom(text, type) {
             // Simple extraction - look for relevant keywords
             const sentences = text.split('.').filter(s => s.trim().length > 0);
