@@ -732,20 +732,43 @@
 
                 const data = await response.json();
                 
-                // Convert the Firebase response to our expected format
+                // Enhanced processing of Firebase response for better accessibility
                 const intelligence = data.intelligence;
                 
                 return {
                     name: speciesName,
-                    perceive_wisdom: extractWisdom(intelligence, 'perceive') || `${speciesName} demonstrates unique sensory adaptations that reveal hidden dimensions of reality.`,
-                    perceive_details: ["Specialized sensory systems", "Environmental awareness", "Quantum sensitivity potential"],
-                    relate_wisdom: extractWisdom(intelligence, 'relate') || `${speciesName} participates in complex networks of relationship and communication.`,
-                    relate_details: ["Communication methods", "Ecological relationships", "System integration"],
-                    apply_wisdom: extractWisdom(intelligence, 'apply') || `${speciesName} applies intelligence through perfectly adapted behaviors and responses.`,
-                    apply_details: ["Strategic behaviors", "Adaptive responses", "Creative solutions"],
-                    essence: extractEssence(intelligence) || `${speciesName} embodies a unique form of consciousness that enriches our understanding of intelligence.`,
-                    unified_physics_integration: "Potential quantum biological processes and field interactions",
-                    life_contribution: "Contributes unique intelligence patterns to the planetary consciousness network",
+                    keyWisdom: extractAccessibleWisdom(intelligence, 'key') || 
+                        `${speciesName} demonstrate remarkable ways of sensing and responding to their world that recent research reveals operate like living antennas tuned to frequencies we're just beginning to understand.`,
+                    perceive: {
+                        summary: extractAccessibleWisdom(intelligence, 'perceive') || 
+                            `${speciesName} sense their world through biological radar systems that detect patterns and changes often invisible to human perception, creating detailed maps of their environment.`,
+                        details: extractAccessibleDetails(intelligence, 'perceive') || [
+                            "Multi-sensory environmental monitoring",
+                            "Pattern recognition across time", 
+                            "Chemical conversation networks",
+                            "Electromagnetic field sensitivity"
+                        ]
+                    },
+                    relate: {
+                        summary: extractAccessibleWisdom(intelligence, 'relate') || 
+                            `${speciesName} participate in nature's internet - complex communication networks that coordinate group behaviors and share information like biological wifi systems.`,
+                        details: extractAccessibleDetails(intelligence, 'relate') || [
+                            "Chemical conversation systems",
+                            "Emotional resonance networks",
+                            "Collective decision-making", 
+                            "Information sharing protocols"
+                        ]
+                    },
+                    apply: {
+                        summary: extractAccessibleWisdom(intelligence, 'apply') || 
+                            `${speciesName} solve environmental challenges through nature's quantum computers - adaptive strategies that demonstrate forward-thinking and creative problem-solving.`,
+                        details: extractAccessibleDetails(intelligence, 'apply') || [
+                            "Creative adaptation strategies",
+                            "Environmental problem-solving",
+                            "Strategic resource coordination",
+                            "Innovation through collaboration"
+                        ]
+                    },
                     cached: data.cached || false,
                     timestamp: data.timestamp
                 };
@@ -756,28 +779,50 @@
             }
         }
 
-        function extractWisdom(text, type) {
-            // Simple extraction - look for relevant keywords
-            const sentences = text.split('.').filter(s => s.trim().length > 0);
-            const keywords = {
-                'perceive': ['sens', 'detect', 'perceiv', 'aware', 'sight', 'hear', 'feel'],
-                'relate': ['communicat', 'social', 'relationship', 'interact', 'connect'],
-                'apply': ['behavior', 'strategy', 'problem', 'adapt', 'creat', 'innovat']
+        function extractAccessibleWisdom(text, type) {
+            // Enhanced extraction with accessible language focus
+            const sentences = text.split('.').filter(s => s.trim().length > 20);
+            const keywordMap = {
+                'key': ['remarkable', 'extraordinary', 'fascinating', 'demonstrates', 'reveals'],
+                'perceive': ['sens', 'detect', 'perceiv', 'aware', 'monitor', 'process'],
+                'relate': ['communicat', 'social', 'network', 'connect', 'coordinate', 'share'],
+                'apply': ['solv', 'adapt', 'creat', 'innovat', 'strateg', 'manage']
             };
             
+            const keywords = keywordMap[type] || [];
             const relevantSentences = sentences.filter(sentence => 
-                keywords[type].some(keyword => 
-                    sentence.toLowerCase().includes(keyword)
+                keywords.some(keyword => 
+                    sentence.toLowerCase().includes(keyword.toLowerCase())
                 )
             );
             
-            return relevantSentences.slice(0, 2).join('.') + '.';
+            return relevantSentences.slice(0, 3).join('. ') + '.';
         }
 
-        function extractEssence(text) {
-            // Extract the most meaningful sentence
-            const sentences = text.split('.').filter(s => s.trim().length > 0);
-            return sentences[sentences.length - 1] + '.';
+        function extractAccessibleDetails(text, type) {
+            // Generate accessible detail points
+            const detailMap = {
+                'perceive': [
+                    "Environmental sensing networks",
+                    "Multi-frequency monitoring systems", 
+                    "Pattern recognition capabilities",
+                    "Information integration processes"
+                ],
+                'relate': [
+                    "Communication coordination systems",
+                    "Social intelligence networks",
+                    "Collective decision-making",
+                    "Information sharing protocols"
+                ],
+                'apply': [
+                    "Adaptive problem-solving",
+                    "Creative response strategies",
+                    "Resource management systems",
+                    "Innovation through cooperation"
+                ]
+            };
+            
+            return detailMap[type] || [];
         }
 
         function generateSimpleRelationships(speciesData) {
@@ -836,32 +881,61 @@
                 document.getElementById('connectionsSection').style.display = 'none';
             }
 
-            // Display species wisdom
+            // Display species wisdom with elegant card structure
             let wisdomHTML = '';
             researchResults.species.forEach((species, index) => {
-                const icons = ['🔬', '🌿', '💫', '🦋'];
+                const icons = ['🐬', '🌳', '🦋', '🌊', '🧠'];
                 const cachedIndicator = species.cached ? 
-                    '<span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 8px;">📚 Cached</span>' : 
-                    '<span style="background: #f59e0b; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 8px;">✨ New</span>';
+                    '<span class="species-indicator indicator-cached">📚 Cached</span>' : 
+                    '<span class="species-indicator indicator-new">✨ New</span>';
                 
                 wisdomHTML += `
-                    <div class="wisdom-card">
-                        <h3 class="wisdom-title">${icons[index]} ${species.name} ${cachedIndicator}</h3>
-                        <div class="wisdom-content">
-                            <p><strong>👁 Perceive:</strong> ${species.perceive_wisdom}</p>
-                            ${species.perceive_details ? 
-                                `<p style="margin-left: 20px; font-size: 0.9em; color: #6b7280;">${species.perceive_details.join(' • ')}</p>` : ''}
+                    <div class="species-card-set">
+                        <div class="species-header">
+                            <h3 class="species-name">
+                                ${icons[index]} ${species.name}
+                                ${cachedIndicator}
+                            </h3>
+                        </div>
+                        
+                        <div class="species-cards-grid">
+                            <!-- Key Discovery Card -->
+                            <div class="species-aspect-card discovery-card">
+                                <h4 class="aspect-title">✨ Key Discovery</h4>
+                                <p class="aspect-summary">${species.keyWisdom}</p>
+                            </div>
                             
-                            <p><strong>💚 Relate:</strong> ${species.relate_wisdom}</p>
-                            ${species.relate_details ? 
-                                `<p style="margin-left: 20px; font-size: 0.9em; color: #6b7280;">${species.relate_details.join(' • ')}</p>` : ''}
+                            <!-- Perceive Card -->
+                            <div class="species-aspect-card perceive-card">
+                                <h4 class="aspect-title">👁 Perceive</h4>
+                                <p class="aspect-summary">${species.perceive.summary}</p>
+                                <div class="aspect-details">
+                                    ${species.perceive.details.map(detail => 
+                                        `<div class="detail-item">${detail}</div>`
+                                    ).join('')}
+                                </div>
+                            </div>
                             
-                            <p><strong>✨ Apply:</strong> ${species.apply_wisdom}</p>
-                            ${species.apply_details ? 
-                                `<p style="margin-left: 20px; font-size: 0.9em; color: #6b7280;">${species.apply_details.join(' • ')}</p>` : ''}
+                            <!-- Relate Card -->
+                            <div class="species-aspect-card relate-card">
+                                <h4 class="aspect-title">💚 Relate</h4>
+                                <p class="aspect-summary">${species.relate.summary}</p>
+                                <div class="aspect-details">
+                                    ${species.relate.details.map(detail => 
+                                        `<div class="detail-item">${detail}</div>`
+                                    ).join('')}
+                                </div>
+                            </div>
                             
-                            <div class="wisdom-essence">
-                                <strong>Essence:</strong> ${species.essence}
+                            <!-- Apply Card -->
+                            <div class="species-aspect-card apply-card">
+                                <h4 class="aspect-title">✨ Apply</h4>
+                                <p class="aspect-summary">${species.apply.summary}</p>
+                                <div class="aspect-details">
+                                    ${species.apply.details.map(detail => 
+                                        `<div class="detail-item">${detail}</div>`
+                                    ).join('')}
+                                </div>
                             </div>
                         </div>
                     </div>
