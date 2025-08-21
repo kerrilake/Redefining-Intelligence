@@ -824,12 +824,6 @@ async function testFirebaseConnection() {
                         </div>
                     </div>
                     
-                    <div class="connections-card wellness-card">
-                        <h3 class="connections-title">🌍 Life Contributions</h3>
-                        <div class="connections-content">
-                            ${researchResults.relationships.wholeLifeContribution.map(contrib => `<p>${contrib}</p>`).join('')}
-                        </div>
-                    </div>
                 `;
             } else {
                 document.getElementById('connectionsSection').style.display = 'none';
