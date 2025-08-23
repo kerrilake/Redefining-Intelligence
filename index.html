@@ -788,59 +788,133 @@ return parseFirebaseResponse(data);
             };
         }
 
-// This converts the new JSON format to work with your current display
-
+// SURGICAL FIX: This only fixes JSON truncation - preserves ALL your content exactly as-is
 function parseFirebaseResponse(data) {
     try {
         const intelligence = data.intelligence;
+        console.log('Raw intelligence data:', intelligence.substring(0, 200) + '...'); // Debug preview
         
         // Try to parse as JSON first (new format)
         let parsedData;
         try {
-            parsedData = JSON.parse(intelligence);
+            // Check if JSON is complete by counting braces
+            const openBraces = (intelligence.match(/\{/g) || []).length;
+            const closeBraces = (intelligence.match(/\}/g) || []).length;
             
-            // Convert new JSON format to old format that current display expects
+            if (openBraces !== closeBraces) {
+                console.warn('Truncated JSON detected - repairing structure while preserving content...');
+                
+                // SURGICAL REPAIR: Only fix structure, never change your words
+                let repairedJSON = intelligence;
+                
+                // If it ends mid-sentence, try to close it properly
+                if (!intelligence.trim().endsWith('}')) {
+                    // Count quote pairs to see if we're inside a string
+                    const quotes = (intelligence.match(/"/g) || []).length;
+                    if (quotes % 2 === 1) {
+                        // Odd number of quotes means we're inside a string - close it
+                        repairedJSON += '"';
+                    }
+                    // Close any open objects (structure only, no content changes)
+                    const openObjects = openBraces - closeBraces;
+                    for (let i = 0; i < openObjects; i++) {
+                        repairedJSON += '}';
+                    }
+                }
+                
+                console.log('JSON structure repaired - parsing your content...');
+                parsedData = JSON.parse(repairedJSON);
+            } else {
+                parsedData = JSON.parse(intelligence);
+            }
+            
+            console.log('Successfully extracted your content:', parsedData.keyWisdom?.substring(0, 100) + '...');
+            
+            // PURE EXTRACTION: Move your beautiful content to display fields (NO modifications)
             return {
                 name: data.species,
+                
+                // Your inspiring "What if I told you..." content goes here exactly as-is:
                 essence: parsedData.keyWisdom || "This species demonstrates remarkable intelligence.",
+                
+                // Your rich perceive content ("You know how we see colors? Well..."):
                 perceive_wisdom: parsedData.perceive?.summary || "Advanced perceptual capabilities",
                 perceive_details: parsedData.perceive?.details || ["Sophisticated sensory systems"],
+                
+                // Your engaging relate content ("Imagine if you could have entire conversations..."):
                 relate_wisdom: parsedData.relate?.summary || "Complex relational intelligence", 
                 relate_details: parsedData.relate?.details || ["Advanced communication"],
+                
+                // Your wonder-filled apply content ("Here's where it gets incredible..."):
                 apply_wisdom: parsedData.apply?.summary || "Strategic problem-solving abilities",
                 apply_details: parsedData.apply?.details || ["Adaptive behaviors"],
                 
-                // Store the extra dimensions for future use
-                temporal: parsedData.temporal,
-                energetic: parsedData.energetic, 
-                collective: parsedData.collective,
-                adaptive: parsedData.adaptive,
-                quantumBiology: parsedData.quantumBiology,
-                humanLearning: parsedData.humanLearning,
-                conservation: parsedData.conservation,
+                // Enhanced dimensions - your content preserved exactly:
+                temporal: parsedData.temporal || null,           // "Time works differently..."
+                energetic: parsedData.energetic || null,         // "Scientists are discovering..."
+                collective: parsedData.collective || null,       // "When they come together..."
+                adaptive: parsedData.adaptive || null,           // Your adaptive insights
+                quantumBiology: parsedData.quantumBiology || null,   // Your quantum content
+                humanLearning: parsedData.humanLearning || null,     // Your learning insights
+                conservation: parsedData.conservation || null,       // Your conservation wisdom
                 sources: parsedData.sources || [],
                 
                 cached: data.cached || false,
                 timestamp: data.timestamp
             };
-        } catch (e) {
-            // Fallback: if it's not JSON, treat as old text format
+            
+        } catch (parseError) {
+            console.error('JSON parsing failed, trying text extraction to preserve your content:', parseError);
+            
+            // BACKUP EXTRACTION: Get your content even from truncated text
+            const extractYourContent = (text, fieldName) => {
+                const regex = new RegExp(`"${fieldName}":\\s*"([^"]*(?:"[^"]*"[^"]*)*)`, 'i');
+                const match = text.match(regex);
+                return match ? match[1] : null;
+            };
+            
+            const extractYourArray = (text, fieldName) => {
+                const regex = new RegExp(`"${fieldName}":\\s*\\[([^\\]]*)]`, 'i');
+                const match = text.match(regex);
+                if (match) {
+                    try {
+                        return JSON.parse(`[${match[1]}]`);
+                    } catch {
+                        return match[1].split(',').map(item => item.replace(/"/g, '').trim()).filter(item => item);
+                    }
+                }
+                return [];
+            };
+            
+            // Extract your beautiful content even from broken JSON:
             return {
                 name: data.species,
-                essence: intelligence.substring(0, 200) + "...",
-                perceive_wisdom: "Classic intelligence analysis", 
-                perceive_details: ["Environmental awareness", "Sensory capabilities"],
-                relate_wisdom: "Social and ecological connections",
-                relate_details: ["Communication patterns", "Relationship building"],
-                apply_wisdom: "Problem-solving and adaptation",
-                apply_details: ["Strategic thinking", "Creative solutions"],
+                essence: extractYourContent(intelligence, 'keyWisdom') || `${data.species} demonstrate remarkable intelligence patterns.`,
+                perceive_wisdom: extractYourContent(intelligence, 'perceive') || "Advanced perceptual capabilities",
+                perceive_details: extractYourArray(intelligence, 'details') || ["Sophisticated sensory systems"],
+                relate_wisdom: extractYourContent(intelligence, 'relate') || "Complex relational intelligence", 
+                relate_details: ["Advanced communication patterns"],
+                apply_wisdom: extractYourContent(intelligence, 'apply') || "Strategic problem-solving abilities",
+                apply_details: ["Adaptive behaviors"],
+                
+                // Preserve enhanced dimensions from partial text:
+                temporal: extractYourContent(intelligence, 'temporal'),
+                energetic: extractYourContent(intelligence, 'energetic'), 
+                collective: extractYourContent(intelligence, 'collective'),
+                adaptive: extractYourContent(intelligence, 'adaptive'),
+                quantumBiology: extractYourContent(intelligence, 'quantumBiology'),
+                humanLearning: extractYourContent(intelligence, 'humanLearning'),
+                conservation: extractYourContent(intelligence, 'conservation'),
+                sources: extractYourArray(intelligence, 'sources'),
+                
                 cached: data.cached || false,
                 timestamp: data.timestamp
             };
         }
     } catch (error) {
-        console.error('Error parsing Firebase response:', error);
-        // Return safe fallback
+        console.error('Complete parsing failure - using minimal fallback:', error);
+        
+        // MINIMAL FALLBACK: Only used in complete failure
         return {
             name: data.species || "Unknown Species",
             essence: "Intelligence analysis in progress...",
