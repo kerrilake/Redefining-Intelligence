@@ -795,6 +795,15 @@ function generateEnhancedRelationships(speciesData) {
     };
 }
 
+function generateSimpleSpecialSections(speciesData) {
+    const speciesNames = speciesData.map(s => s.name).join(', ');
+    return {
+        unified_physics: `These species (${speciesNames}) relate to life through quantum coherence in their biological processes, suggesting consciousness operates with quantum intelligence.`,
+        contribution_to_life: `Each species contributes unique expressions of intelligence to planetary consciousness, weaving collective wisdom.`,
+        research_frontiers: `Future research could explore the quantum relationships of interspecies communication and ecosystem networks among ${speciesNames}.`
+    };
+}
+
 function generateInspiredSimilarities(capabilities, names) {
     const similarities = [];
     
