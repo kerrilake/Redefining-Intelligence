@@ -738,23 +738,8 @@
                 const data = await response.json();
                 console.log(`Data received for ${speciesName}:`, data);
                 
-                // Convert the Firebase response to our expected format
-                const intelligence = data.intelligence;
-                
-                return {
-                    name: speciesName,
-                    perceive_wisdom: extractWisdom(intelligence, 'perceive') || `${speciesName} demonstrates unique sensory adaptations that reveal dimensions of reality suited to their uniqueness.`,
-                    perceive_details: ["Specialized sensory systems", "Environmental awareness", "Quantum sensitivity potential"],
-                    relate_wisdom: extractWisdom(intelligence, 'relate') || `${speciesName} relates to perceived information through complex networks of relationship and communication.`,
-                    relate_details: ["Communication methods", "Ecological relationships", "System integration"],
-                    apply_wisdom: extractWisdom(intelligence, 'apply') || `${speciesName} applies intelligence through perfectly harmonized behaviors and responses.`,
-                    apply_details: ["Strategic behaviors", "Adaptive responses", "Creative solutions"],
-                    essence: extractEssence(intelligence) || `${speciesName} embodies a unique expression of consciousness that enriches our awareness of intelligence.`,
-                    unified_physics_integration: "Integrated quantum biological processes and field interactions",
-                    life_contribution: "Contributes unique expression of intelligence to the planetary consciousness and harmony.",
-                    cached: data.cached || false,
-                    timestamp: data.timestamp
-                };
+               // Use the new JSON parser to handle both old and new formats
+return parseFirebaseResponse(data);
 
             } catch (error) {
                 console.error(`Error getting data for ${speciesName}:`, error);
@@ -803,133 +788,292 @@
             };
         }
 
-        // ENHANCED DISPLAY FUNCTION - Beautiful 4-card UI like working version
-        function displayResults() {
-            const resultsSection = document.getElementById('resultsSection');
-            const connectionsContent = document.getElementById('connectionsContent');
-            const wisdomContent = document.getElementById('wisdomContent');
-            const specialSections = document.getElementById('specialSections');
-            const completionTime = document.getElementById('completionTime');
+// This converts the new JSON format to work with your current display
 
-            // Update completion time
-            completionTime.textContent = `✅ Intelligence exploration completed: ${researchResults.timestamp}`;
-
-            // Display connections if multiple species
-            if (researchResults.species.length > 1 && researchResults.relationships) {
-                connectionsContent.innerHTML = `
-                    <div class="connections-card similarities-card">
-                        <h3 class="connections-title">✨ Where They Are Alike</h3>
-                        <div class="connections-content">
-                            ${researchResults.relationships.similarities.map(sim => `<p>${sim}</p>`).join('')}
-                        </div>
-                    </div>
-                    
-                    <div class="connections-card differences-card">
-                        <h3 class="connections-title">🌈 Where They Are Uniquely Different</h3>
-                        <div class="connections-content">
-                            ${researchResults.relationships.differences.map(diff => `<p>${diff}</p>`).join('')}
-                        </div>
-                    </div>
-                    
-                `;
-            } else {
-                document.getElementById('connectionsSection').style.display = 'none';
-            }
-
-            // ENHANCED 4-CARD SPECIES DISPLAY
-            let wisdomHTML = '';
-            researchResults.species.forEach((species, index) => {
-                const icons = ['🐬', '🌳', '🦋', '🌊', '🧠'];
-                const cachedIndicator = species.cached ? 
-                    '<span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 8px;">📚 Cached</span>' : 
-                    '<span style="background: #f59e0b; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 8px;">✨ New</span>';
+function parseFirebaseResponse(data) {
+    try {
+        const intelligence = data.intelligence;
+        
+        // Try to parse as JSON first (new format)
+        let parsedData;
+        try {
+            parsedData = JSON.parse(intelligence);
+            
+            // Convert new JSON format to old format that current display expects
+            return {
+                name: data.species,
+                essence: parsedData.keyWisdom || "This species demonstrates remarkable intelligence.",
+                perceive_wisdom: parsedData.perceive?.summary || "Advanced perceptual capabilities",
+                perceive_details: parsedData.perceive?.details || ["Sophisticated sensory systems"],
+                relate_wisdom: parsedData.relate?.summary || "Complex relational intelligence", 
+                relate_details: parsedData.relate?.details || ["Advanced communication"],
+                apply_wisdom: parsedData.apply?.summary || "Strategic problem-solving abilities",
+                apply_details: parsedData.apply?.details || ["Adaptive behaviors"],
                 
-                wisdomHTML += `
-                    <div style="margin-bottom: 32px;">
-                        <h3 style="font-size: 1.5rem; font-weight: 600; color: #1f2937; margin-bottom: 20px; text-align: center;">
-                            ${icons[index]} ${species.name} ${cachedIndicator}
-                        </h3>
-                        
-                        <!-- Key Discovery Card -->
-                        <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 20px; margin-bottom: 16px; border-left: 4px solid #f59e0b;">
-                            <h4 style="font-size: 1.1rem; font-weight: 600; color: #92400e; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                                ✨ Key Discovery
-                            </h4>
-                            <p style="color: #451a03; line-height: 1.6; font-style: italic;">
-                                ${species.essence}
-                            </p>
-                        </div>
-                        
-                        <!-- Research Cards Grid -->
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
-                            
-                            <!-- Perceive Card -->
-                            <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border: 1px solid #3b82f6; border-radius: 12px; padding: 20px; border-left: 4px solid #3b82f6;">
-                                <h4 style="font-size: 1rem; font-weight: 600; color: #1e40af; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                                    👁 Perceive
-                                </h4>
-                                <p style="color: #1e3a8a; line-height: 1.6; margin-bottom: 12px;">
-                                    ${species.perceive_wisdom}
-                                </p>
-                                <ul style="color: #1e3a8a; margin-left: 16px; line-height: 1.5;">
-                                    ${species.perceive_details.map(detail => `<li style="margin-bottom: 6px;">${detail}</li>`).join('')}
-                                </ul>
-                            </div>
-                            
-                            <!-- Relate Card -->
-                            <div style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border: 1px solid #10b981; border-radius: 12px; padding: 20px; border-left: 4px solid #10b981;">
-                                <h4 style="font-size: 1rem; font-weight: 600; color: #047857; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                                    💚 Relate
-                                </h4>
-                                <p style="color: #064e3b; line-height: 1.6; margin-bottom: 12px;">
-                                    ${species.relate_wisdom}
-                                </p>
-                                <ul style="color: #064e3b; margin-left: 16px; line-height: 1.5;">
-                                    ${species.relate_details.map(detail => `<li style="margin-bottom: 6px;">${detail}</li>`).join('')}
-                                </ul>
-                            </div>
-                            
-                            <!-- Apply Card -->
-                            <div style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border: 1px solid #8b5cf6; border-radius: 12px; padding: 20px; border-left: 4px solid #8b5cf6;">
-                                <h4 style="font-size: 1rem; font-weight: 600; color: #6b21a8; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                                    ✨ Apply
-                                </h4>
-                                <p style="color: #581c87; line-height: 1.6; margin-bottom: 12px;">
-                                    ${species.apply_wisdom}
-                                </p>
-                                <ul style="color: #581c87; margin-left: 16px; line-height: 1.5;">
-                                    ${species.apply_details.map(detail => `<li style="margin-bottom: 6px;">${detail}</li>`).join('')}
-                                </ul>
-                            </div>
-                            
-                        </div>
-                    </div>
-                `;
-            });
-
-            wisdomContent.innerHTML = wisdomHTML;
-
-            // Display special sections
-            if (researchResults.special) {
-                specialSections.innerHTML = `
-                    <div class="special-card physics-card">
-                        <h3 class="special-title">⚡ Unified Physics Integration</h3>
-                        <div class="special-content">${researchResults.special.unified_physics}</div>
-                    </div>
-                    <div class="special-card contribution-card">
-                        <h3 class="special-title">🌱 Contribution to Life</h3>
-                        <div class="special-content">${researchResults.special.contribution_to_life}</div>
-                    </div>
-                    <div class="special-card research-card">
-                        <h3 class="special-title">🔬 Research Frontiers</h3>
-                        <div class="special-content">${researchResults.special.research_frontiers}</div>
-                    </div>
-                `;
-            }
-
-            // Show results
-            resultsSection.classList.add('show');
+                // Store the extra dimensions for future use
+                temporal: parsedData.temporal,
+                energetic: parsedData.energetic, 
+                collective: parsedData.collective,
+                adaptive: parsedData.adaptive,
+                quantumBiology: parsedData.quantumBiology,
+                humanLearning: parsedData.humanLearning,
+                conservation: parsedData.conservation,
+                sources: parsedData.sources || [],
+                
+                cached: data.cached || false,
+                timestamp: data.timestamp
+            };
+        } catch (e) {
+            // Fallback: if it's not JSON, treat as old text format
+            return {
+                name: data.species,
+                essence: intelligence.substring(0, 200) + "...",
+                perceive_wisdom: "Classic intelligence analysis", 
+                perceive_details: ["Environmental awareness", "Sensory capabilities"],
+                relate_wisdom: "Social and ecological connections",
+                relate_details: ["Communication patterns", "Relationship building"],
+                apply_wisdom: "Problem-solving and adaptation",
+                apply_details: ["Strategic thinking", "Creative solutions"],
+                cached: data.cached || false,
+                timestamp: data.timestamp
+            };
         }
+    } catch (error) {
+        console.error('Error parsing Firebase response:', error);
+        // Return safe fallback
+        return {
+            name: data.species || "Unknown Species",
+            essence: "Intelligence analysis in progress...",
+            perceive_wisdom: "Perceptual capabilities",
+            perceive_details: ["Sensory awareness"],
+            relate_wisdom: "Relational intelligence", 
+            relate_details: ["Communication abilities"],
+            apply_wisdom: "Applied intelligence",
+            apply_details: ["Problem-solving skills"],
+            cached: false,
+            timestamp: new Date().toISOString()
+        };
+    }
+}
+        
+// REPLACE your entire displayResults() function with this enhanced V26 version
+
+function displayResults() {
+    const resultsSection = document.getElementById('resultsSection');
+    const connectionsContent = document.getElementById('connectionsContent');
+    const wisdomContent = document.getElementById('wisdomContent');
+    const specialSections = document.getElementById('specialSections');
+    const completionTime = document.getElementById('completionTime');
+
+    // Update completion time
+    completionTime.textContent = `✅ Intelligence exploration completed: ${researchResults.timestamp}`;
+
+    // Display connections if multiple species
+    if (researchResults.species.length > 1 && researchResults.relationships) {
+        connectionsContent.innerHTML = `
+            <div class="connections-card similarities-card">
+                <h3 class="connections-title">✨ Where They Are Alike</h3>
+                <div class="connections-content">
+                    ${researchResults.relationships.similarities.map(sim => `<p>${sim}</p>`).join('')}
+                </div>
+            </div>
+            
+            <div class="connections-card differences-card">
+                <h3 class="connections-title">🌈 Where They Are Uniquely Different</h3>
+                <div class="connections-content">
+                    ${researchResults.relationships.differences.map(diff => `<p>${diff}</p>`).join('')}
+                </div>
+            </div>
+        `;
+    } else {
+        document.getElementById('connectionsSection').style.display = 'none';
+    }
+
+    // COMPLETE V26 SPECIES DISPLAY - All 11 Dimensions
+    let wisdomHTML = '';
+    researchResults.species.forEach((species, index) => {
+        const icons = ['🐬', '🌳', '🦋', '🌊', '🧠', '🦅', '🐝', '🌸'];
+        const cachedIndicator = species.cached ? 
+            '<span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 8px;">📚 Cached</span>' : 
+            '<span style="background: #f59e0b; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 8px;">✨ New</span>';
+        
+        wisdomHTML += `
+            <div style="margin-bottom: 48px;">
+                <h3 style="font-size: 1.8rem; font-weight: 600; color: #1f2937; margin-bottom: 24px; text-align: center;">
+                    ${icons[index]} ${species.name} ${cachedIndicator}
+                </h3>
+                
+                <!-- Key Discovery Card -->
+                <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 24px; margin-bottom: 20px; border-left: 4px solid #f59e0b; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);">
+                    <h4 style="font-size: 1.2rem; font-weight: 600; color: #92400e; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                        💡 Key Discovery
+                    </h4>
+                    <p style="color: #451a03; line-height: 1.7; font-size: 1.05rem; font-style: italic;">
+                        ${species.essence}
+                    </p>
+                </div>
+                
+                <!-- Core Intelligence Framework (Perceive/Relate/Apply) -->
+                <h4 style="font-size: 1.1rem; font-weight: 600; color: #374151; margin: 20px 0 12px 0; text-align: center;">
+                    🧠 Core Intelligence Framework
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                    
+                    <!-- Perceive Card -->
+                    <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border: 1px solid #3b82f6; border-radius: 12px; padding: 20px; border-left: 4px solid #3b82f6; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);">
+                        <h4 style="font-size: 1rem; font-weight: 600; color: #1e40af; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                            👁 Perceive
+                        </h4>
+                        <p style="color: #1e3a8a; line-height: 1.6; margin-bottom: 12px; font-size: 0.95rem;">
+                            ${species.perceive_wisdom}
+                        </p>
+                        <ul style="color: #1e3a8a; margin-left: 16px; line-height: 1.5; font-size: 0.9rem;">
+                            ${species.perceive_details.map(detail => `<li style="margin-bottom: 4px;">${detail}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <!-- Relate Card -->
+                    <div style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border: 1px solid #10b981; border-radius: 12px; padding: 20px; border-left: 4px solid #10b981; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);">
+                        <h4 style="font-size: 1rem; font-weight: 600; color: #047857; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                            💚 Relate
+                        </h4>
+                        <p style="color: #064e3b; line-height: 1.6; margin-bottom: 12px; font-size: 0.95rem;">
+                            ${species.relate_wisdom}
+                        </p>
+                        <ul style="color: #064e3b; margin-left: 16px; line-height: 1.5; font-size: 0.9rem;">
+                            ${species.relate_details.map(detail => `<li style="margin-bottom: 4px;">${detail}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <!-- Apply Card -->
+                    <div style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border: 1px solid #8b5cf6; border-radius: 12px; padding: 20px; border-left: 4px solid #8b5cf6; box-shadow: 0 2px 8px rgba(139, 92, 246, 0.1);">
+                        <h4 style="font-size: 1rem; font-weight: 600; color: #6b21a8; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                            ✨ Apply
+                        </h4>
+                        <p style="color: #581c87; line-height: 1.6; margin-bottom: 12px; font-size: 0.95rem;">
+                            ${species.apply_wisdom}
+                        </p>
+                        <ul style="color: #581c87; margin-left: 16px; line-height: 1.5; font-size: 0.9rem;">
+                            ${species.apply_details.map(detail => `<li style="margin-bottom: 4px;">${detail}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Intelligence Dimensions -->
+                <h4 style="font-size: 1.1rem; font-weight: 600; color: #374151; margin: 24px 0 12px 0; text-align: center;">
+                    🌟 Enhanced Intelligence Dimensions
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 20px;">
+                    
+                    ${species.temporal ? `
+                    <div style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); border: 1px solid #ec4899; border-radius: 10px; padding: 16px; border-left: 4px solid #ec4899;">
+                        <h5 style="font-size: 0.95rem; font-weight: 600; color: #be185d; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            ⏰ Temporal Intelligence
+                        </h5>
+                        <p style="color: #831843; line-height: 1.5; font-size: 0.9rem;">${species.temporal}</p>
+                    </div>
+                    ` : ''}
+                    
+                    ${species.energetic ? `
+                    <div style="background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%); border: 1px solid #0284c7; border-radius: 10px; padding: 16px; border-left: 4px solid #0284c7;">
+                        <h5 style="font-size: 0.95rem; font-weight: 600; color: #0369a1; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            ⚡ Energetic Intelligence
+                        </h5>
+                        <p style="color: #075985; line-height: 1.5; font-size: 0.9rem;">${species.energetic}</p>
+                    </div>
+                    ` : ''}
+                    
+                    ${species.collective ? `
+                    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #22c55e; border-radius: 10px; padding: 16px; border-left: 4px solid #22c55e;">
+                        <h5 style="font-size: 0.95rem; font-weight: 600; color: #15803d; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            🤝 Collective Intelligence
+                        </h5>
+                        <p style="color: #166534; line-height: 1.5; font-size: 0.9rem;">${species.collective}</p>
+                    </div>
+                    ` : ''}
+                    
+                    ${species.adaptive ? `
+                    <div style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); border: 1px solid #ea580c; border-radius: 10px; padding: 16px; border-left: 4px solid #ea580c;">
+                        <h5 style="font-size: 0.95rem; font-weight: 600; color: #c2410c; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            🔄 Adaptive Intelligence
+                        </h5>
+                        <p style="color: #9a3412; line-height: 1.5; font-size: 0.9rem;">${species.adaptive}</p>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                <!-- Advanced Research Dimensions -->
+                <h4 style="font-size: 1.1rem; font-weight: 600; color: #374151; margin: 24px 0 12px 0; text-align: center;">
+                    🔬 Advanced Research Dimensions
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                    
+                    ${species.quantumBiology ? `
+                    <div style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border: 1px solid #a855f7; border-radius: 12px; padding: 18px; border-left: 4px solid #a855f7; box-shadow: 0 2px 8px rgba(168, 85, 247, 0.1);">
+                        <h5 style="font-size: 1rem; font-weight: 600; color: #7c3aed; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+                            🌌 Quantum Biology
+                        </h5>
+                        <p style="color: #5b21b6; line-height: 1.6; font-size: 0.95rem;">${species.quantumBiology}</p>
+                    </div>
+                    ` : ''}
+                    
+                    ${species.humanLearning ? `
+                    <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #d97706; border-radius: 12px; padding: 18px; border-left: 4px solid #d97706; box-shadow: 0 2px 8px rgba(217, 119, 6, 0.1);">
+                        <h5 style="font-size: 1rem; font-weight: 600; color: #b45309; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+                            🎓 Human Learning Opportunities
+                        </h5>
+                        <p style="color: #92400e; line-height: 1.6; font-size: 0.95rem;">${species.humanLearning}</p>
+                    </div>
+                    ` : ''}
+                    
+                    ${species.conservation ? `
+                    <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 1px solid #059669; border-radius: 12px; padding: 18px; border-left: 4px solid #059669; box-shadow: 0 2px 8px rgba(5, 150, 105, 0.1);">
+                        <h5 style="font-size: 1rem; font-weight: 600; color: #047857; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+                            🌍 Conservation Insights
+                        </h5>
+                        <p style="color: #065f46; line-height: 1.6; font-size: 0.95rem;">${species.conservation}</p>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                <!-- Research Sources -->
+                ${species.sources && species.sources.length > 0 ? `
+                <div style="margin-top: 20px; padding: 16px; background: rgba(243, 244, 246, 0.7); border-radius: 10px; border-left: 3px solid #6b7280;">
+                    <h5 style="font-size: 0.95rem; font-weight: 600; color: #374151; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+                        📚 Research Sources
+                    </h5>
+                    <ul style="color: #4b5563; font-size: 0.85rem; margin-left: 16px; line-height: 1.4;">
+                        ${species.sources.map(source => `<li style="margin-bottom: 3px;">${source}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+            </div>
+        `;
+    });
+
+    wisdomContent.innerHTML = wisdomHTML;
+
+    // Display special sections
+    if (researchResults.special) {
+        specialSections.innerHTML = `
+            <div class="special-card physics-card">
+                <h3 class="special-title">⚡ Unified Physics Integration</h3>
+                <div class="special-content">${researchResults.special.unified_physics}</div>
+            </div>
+            <div class="special-card contribution-card">
+                <h3 class="special-title">🌱 Contribution to Life</h3>
+                <div class="special-content">${researchResults.special.contribution_to_life}</div>
+            </div>
+            <div class="special-card research-card">
+                <h3 class="special-title">🔬 Research Frontiers</h3>
+                <div class="special-content">${researchResults.special.research_frontiers}</div>
+            </div>
+        `;
+    }
+
+    // Show results
+    resultsSection.classList.add('show');
+}
 
         // PDF generation function - UNCHANGED
         window.generatePDF = function() {
