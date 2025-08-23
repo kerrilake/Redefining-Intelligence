@@ -671,7 +671,7 @@
 
                 // Generate special sections
                 progressText.textContent = 'Creating unified insights...';
-                const specialSections = generateSimpleSpecialSections(speciesData);
+                const specialSections = generateEnhancedSpecialSections(speciesData);
 
                 // Store results
                 researchResults = {
@@ -1088,7 +1088,7 @@ function displayResults() {
     const resultsSection = document.getElementById('resultsSection');
     const connectionsContent = document.getElementById('connectionsContent');
     const wisdomContent = document.getElementById('wisdomContent');
-    const specialSections = generateEnhancedSpecialSections(speciesData);
+    const specialSections = document.getElementById('specialSections');
     const completionTime = document.getElementById('completionTime');
 
     // Update completion time
