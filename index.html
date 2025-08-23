@@ -667,7 +667,7 @@
 
                 // Generate relationships
                 progressText.textContent = 'Analyzing intelligence relationships...';
-                const relationships = generateSimpleRelationships(speciesData);
+                const relationships = generateEnhancedRelationships(speciesData);
 
                 // Generate special sections
                 progressText.textContent = 'Creating unified insights...';
@@ -770,23 +770,160 @@ return parseFirebaseResponse(data);
             return sentences[sentences.length - 1] + '.';
         }
 
-        function generateSimpleRelationships(speciesData) {
-            const speciesNames = speciesData.map(s => s.name).join(', ');
-            return {
-                similarities: [`All demonstrate relational intelligence patterns that extend beyond traditional intelligence hierarchy.`],
-                differences: [`Each expresses intelligence through unique biological adaptations and environmental relationships.`],
-                wholeLifeContribution: [`Together, ${speciesNames} generate an interdependent, more resilient planetary expression of life.`]
-            };
-        }
+        // Replace your generateSimpleRelationships function with this enhanced version
+function generateEnhancedRelationships(speciesData) {
+    if (speciesData.length < 2) return null;
+    
+    const speciesNames = speciesData.map(s => s.name);
+    const essences = speciesData.map(s => s.essence);
+    
+    // Extract fascinating specific details from each species
+    const uniqueCapabilities = speciesData.map(species => ({
+        name: species.name,
+        perceive: species.perceive_wisdom,
+        relate: species.relate_wisdom,
+        apply: species.apply_wisdom,
+        temporal: species.temporal,
+        energetic: species.energetic,
+        collective: species.collective
+    }));
+    
+    return {
+        similarities: generateInspiredSimilarities(uniqueCapabilities, speciesNames),
+        differences: generateFascinatingDifferences(uniqueCapabilities, speciesNames),
+        wholeLifeContribution: generateUnifiedContribution(uniqueCapabilities, speciesNames)
+    };
+}
 
-        function generateSimpleSpecialSections(speciesData) {
-            const speciesNames = speciesData.map(s => s.name).join(', ');
-            return {
-                unified_physics: `These species (${speciesNames}) relate to life through quantum coherence in their biological processes, suggesting consciousness operates with quantum intelligence.`,
-                contribution_to_life: `Each species contributes unique expressions of intelligence to planetary consciousness, weaving collective wisdom.`,
-                research_frontiers: `Future research could explore the quantum relationships of interspecies communication and ecosystem networks among ${speciesNames}.`
-            };
-        }
+function generateInspiredSimilarities(capabilities, names) {
+    const similarities = [];
+    
+    // Look for shared quantum/electromagnetic themes
+    const quantumSpecies = capabilities.filter(s => 
+        s.perceive?.includes('electromagnetic') || 
+        s.energetic?.includes('electromagnetic') ||
+        s.perceive?.includes('quantum') ||
+        s.energetic?.includes('quantum')
+    );
+    
+    if (quantumSpecies.length > 1) {
+        similarities.push(
+            `Remarkably, ${quantumSpecies.map(s => s.name).join(', ')} all navigate reality through electromagnetic intelligence - they're essentially living in an invisible dimension of bioelectric fields and quantum information that we humans can barely perceive.`
+        );
+    }
+    
+    // Look for shared collective intelligence patterns
+    const collectiveSpecies = capabilities.filter(s => 
+        s.collective?.includes('swarm') ||
+        s.collective?.includes('network') ||
+        s.collective?.includes('collective') ||
+        s.relate?.includes('network') ||
+        s.relate?.includes('collective')
+    );
+    
+    if (collectiveSpecies.length > 1) {
+        similarities.push(
+            `What's fascinating is that ${collectiveSpecies.map(s => s.name).join(' and ')} both demonstrate that intelligence isn't individual - it emerges from relationships. They're showing us that consciousness might be fundamentally collaborative rather than competitive.`
+        );
+    }
+    
+    // Look for shared temporal intelligence
+    const temporalSpecies = capabilities.filter(s => 
+        s.temporal?.includes('time') ||
+        s.temporal?.includes('seasonal') ||
+        s.temporal?.includes('circadian')
+    );
+    
+    if (temporalSpecies.length > 1) {
+        similarities.push(
+            `All of these species experience time in ways that would seem supernatural to us - ${temporalSpecies.map(s => s.name).join(', ')} operate on multiple temporal scales simultaneously, suggesting that linear time might be a uniquely human limitation.`
+        );
+    }
+    
+    // Fallback inspired similarity
+    if (similarities.length === 0) {
+        similarities.push(
+            `Each of these species - ${names.join(', ')} - reveals that intelligence flows through relationships with their environment rather than existing as isolated computation. They're all demonstrating forms of consciousness that dissolve the boundary between self and world.`
+        );
+    }
+    
+    return similarities;
+}
+
+function generateFascinatingDifferences(capabilities, names) {
+    const differences = [];
+    
+    // Compare sensory capabilities
+    const sensoryMethods = capabilities.map(species => {
+        if (species.perceive?.includes('echolocation')) return `${species.name} map reality through sound`;
+        if (species.perceive?.includes('ultraviolet')) return `${species.name} see into invisible light spectrums`;
+        if (species.perceive?.includes('chemical')) return `${species.name} read chemical messages in the air`;
+        if (species.perceive?.includes('electromagnetic')) return `${species.name} sense electromagnetic fields`;
+        if (species.perceive?.includes('vibration')) return `${species.name} feel vibrations through the earth`;
+        return `${species.name} perceive through unique sensory channels`;
+    });
+    
+    if (sensoryMethods.length > 1) {
+        differences.push(
+            `Their sensory worlds are completely different universes: ${sensoryMethods.join(', ')} - each creating a completely different experience of what "reality" actually is.`
+        );
+    }
+    
+    // Compare communication methods
+    const commMethods = capabilities.map(species => {
+        if (species.relate?.includes('dance')) return `${species.name} encode information in geometric dance`;
+        if (species.relate?.includes('chemical')) return `${species.name} communicate through chemical signatures`;
+        if (species.relate?.includes('ultrasonic') || species.relate?.includes('acoustic')) return `${species.name} use acoustic languages`;
+        if (species.relate?.includes('bioelectric')) return `${species.name} communicate through bioelectric fields`;
+        if (species.relate?.includes('vibration')) return `${species.name} send messages through vibration`;
+        return `${species.name} use sophisticated communication systems`;
+    });
+    
+    if (commMethods.length > 1) {
+        differences.push(
+            `Their communication systems reveal entirely different approaches to sharing consciousness: ${commMethods.join(', ')} - suggesting there are infinite ways intelligence can express itself.`
+        );
+    }
+    
+    // Compare temporal scales
+    const temporalScales = capabilities.map(species => {
+        if (species.temporal?.includes('microsecond')) return `${species.name} process reality in microseconds`;
+        if (species.temporal?.includes('seasonal')) return `${species.name} think in seasonal cycles`;
+        if (species.temporal?.includes('decades') || species.temporal?.includes('century')) return `${species.name} plan across decades`;
+        if (species.temporal?.includes('circadian')) return `${species.name} sync to daily rhythms`;
+        return `${species.name} operate on unique temporal scales`;
+    });
+    
+    differences.push(
+        `Time works completely differently for each: ${temporalScales.join(', ')} - they're essentially living in different temporal dimensions while sharing the same physical space.`
+    );
+    
+    return differences;
+}
+
+function generateUnifiedContribution(capabilities, names) {
+    const contributions = [];
+    
+    // Look for ecosystem roles
+    const ecosystemRoles = capabilities.map(species => {
+        if (species.apply?.includes('pollination')) return `${species.name} facilitate genetic diversity`;
+        if (species.apply?.includes('network') || species.relate?.includes('network')) return `${species.name} create communication networks`;
+        if (species.apply?.includes('cleanup') || species.apply?.includes('recycling')) return `${species.name} maintain ecosystem balance`;
+        if (species.apply?.includes('engineering') || species.apply?.includes('habitat')) return `${species.name} engineer environmental systems`;
+        return `${species.name} contribute unique ecosystem intelligence`;
+    });
+    
+    contributions.push(
+        `Together, ${names.join(', ')} create a symphony of planetary intelligence where ${ecosystemRoles.join(', ')}, demonstrating that Earth's consciousness emerges from the interplay of countless forms of awareness working in harmony.`
+    );
+    
+    // Add quantum/consciousness insight
+    contributions.push(
+        `Their combined intelligence systems suggest that consciousness operates as a field phenomenon - each species contributing unique frequencies to a planetary awareness that transcends any individual form of intelligence.`
+    );
+    
+    return contributions;
+}
 
 // SURGICAL FIX: This only fixes JSON truncation - preserves ALL your content exactly as-is
 function parseFirebaseResponse(data) {
