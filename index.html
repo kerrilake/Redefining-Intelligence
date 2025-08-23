@@ -1014,10 +1014,16 @@ function parseFirebaseResponse(data) {
             
             // BACKUP EXTRACTION: Get your content even from truncated text
             const extractYourContent = (text, fieldName) => {
-                const regex = new RegExp(`"${fieldName}":\\s*"([^"]*(?:"[^"]*"[^"]*)*)`, 'i');
-                const match = text.match(regex);
-                return match ? match[1] : null;
-            };
+    // For nested objects like "perceive": { "summary": "content" }
+    let regex = new RegExp(`"${fieldName}":\\s*{[^}]*"summary":\\s*"([^"]+)"`, 'i');
+    let match = text.match(regex);
+    if (match) return match[1];
+    
+    // For direct fields like "keyWisdom": "content"
+    regex = new RegExp(`"${fieldName}":\\s*"([^"]+)"`, 'i');
+    match = text.match(regex);
+    return match ? match[1] : null;
+};
             
             const extractYourArray = (text, fieldName) => {
                 const regex = new RegExp(`"${fieldName}":\\s*\\[([^\\]]*)]`, 'i');
