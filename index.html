@@ -806,6 +806,18 @@ function generateSimpleSpecialSections(speciesData) {
     };
 }
 
+// Add this RIGHT AFTER the generateSimpleSpecialSections function
+
+function generateEnhancedSpecialSections(speciesData) {
+    const speciesNames = speciesData.map(s => s.name);
+    
+    return {
+        unified_physics: generateUnifiedPhysicsInsight(speciesData, speciesNames),
+        contribution_to_life: generateLifeContributionInsight(speciesData, speciesNames),
+        research_frontiers: generateResearchFrontiers(speciesData, speciesNames)
+    };
+}
+
 function generateUnifiedPhysicsInsight(speciesData, names) {
     // Extract quantum and electromagnetic patterns from actual species data
     const quantumElements = [];
