@@ -795,13 +795,85 @@ function generateEnhancedRelationships(speciesData) {
     };
 }
 
+// Replace your generateSimpleSpecialSections function with this enhanced version
 function generateSimpleSpecialSections(speciesData) {
-    const speciesNames = speciesData.map(s => s.name).join(', ');
+    const speciesNames = speciesData.map(s => s.name);
+    
     return {
-        unified_physics: `These species (${speciesNames}) relate to life through quantum coherence in their biological processes, suggesting consciousness operates with quantum intelligence.`,
-        contribution_to_life: `Each species contributes unique expressions of intelligence to planetary consciousness, weaving collective wisdom.`,
-        research_frontiers: `Future research could explore the quantum relationships of interspecies communication and ecosystem networks among ${speciesNames}.`
+        unified_physics: generateUnifiedPhysicsInsight(speciesData, speciesNames),
+        contribution_to_life: generateLifeContributionInsight(speciesData, speciesNames),
+        research_frontiers: generateResearchFrontiers(speciesData, speciesNames)
     };
+}
+
+function generateUnifiedPhysicsInsight(speciesData, names) {
+    // Extract quantum and electromagnetic patterns from actual species data
+    const quantumElements = [];
+    const coherencePatterns = [];
+    
+    speciesData.forEach(species => {
+        if (species.quantumBiology || (species.energetic && species.energetic.includes('electromagnetic'))) {
+            quantumElements.push(species.name);
+        }
+        if (species.collective && (species.collective.includes('synchronize') || species.collective.includes('coherence'))) {
+            coherencePatterns.push(species.name);
+        }
+    });
+    
+    if (quantumElements.length > 1) {
+        return `What we're witnessing across ${names.join(', ')} is evidence of quantum coherence operating at biological scales - each species demonstrating that consciousness and matter are fundamentally entangled. Their intelligence emerges from quantum field interactions that transcend our classical understanding of space and time, suggesting that awareness itself is a fundamental property woven into the fabric of reality.`;
+    }
+    
+    return `These species reveal that intelligence operates through quantum field dynamics where information, energy, and consciousness are unified. Rather than separate minds processing isolated data, we see interconnected awareness participating in what appears to be a planetary-scale quantum system where each species contributes unique frequencies to an emerging collective intelligence.`;
+}
+
+function generateLifeContributionInsight(speciesData, names) {
+    // Focus on symbiosis, interconnection, and planetary harmony
+    const contributions = [];
+    
+    speciesData.forEach(species => {
+        if (species.apply && species.apply.includes('ecosystem')) {
+            contributions.push(`${species.name} weave ecological balance`);
+        } else if (species.relate && species.relate.includes('network')) {
+            contributions.push(`${species.name} create communication webs`);
+        } else if (species.energetic && species.energetic.includes('healing')) {
+            contributions.push(`${species.name} generate healing fields`);
+        } else if (species.collective && species.collective.includes('collective')) {
+            contributions.push(`${species.name} demonstrate collective wisdom`);
+        } else {
+            contributions.push(`${species.name} offer unique gifts of awareness`);
+        }
+    });
+    
+    return `Here's the beautiful truth emerging from ${names.join(' and ')}: ${contributions.join(', ')}, creating a living symphony where every species contributes essential notes to planetary wellbeing. They're showing us that Earth's intelligence isn't a hierarchy with humans at the top, but a collaborative masterpiece where each form of life enhances the resilience and consciousness of the whole. We're not separate from this web - we're participants whose role is to recognize and honor the wisdom flowing through all life.`;
+}
+
+function generateResearchFrontiers(speciesData, names) {
+    // Generate 3-4 research directions that re-include humans in the family of life
+    const frontiers = [];
+    
+    // Technology for interspecies communication
+    if (speciesData.some(s => s.relate && (s.relate.includes('communication') || s.relate.includes('acoustic') || s.relate.includes('electromagnetic')))) {
+        frontiers.push('**Interspecies Communication Technologies**: Developing AI systems that can translate between human and non-human intelligence patterns, creating bridges for genuine cross-species dialogue');
+    }
+    
+    // Quantum biology applications
+    if (speciesData.some(s => s.quantumBiology || (s.energetic && s.energetic.includes('electromagnetic')))) {
+        frontiers.push('**Quantum Biology Applications**: Investigating how natural quantum coherence systems could inform human healing technologies and consciousness expansion practices');
+    }
+    
+    // Ecosystem intelligence studies
+    if (speciesData.some(s => s.collective || (s.apply && s.apply.includes('ecosystem')))) {
+        frontiers.push('**Ecosystem Intelligence Networks**: Mapping how different species coordinate information flows to maintain planetary balance, revealing human roles within these larger systems');
+    }
+    
+    // Legal and educational frameworks
+    frontiers.push('**Consciousness-Based Ethics**: Developing legal frameworks and educational curricula that recognize non-human intelligence as inherently valuable, not just instrumentally useful to humans');
+    
+    // Limit to 4 items and create final insight
+    const selectedFrontiers = frontiers.slice(0, 4);
+    
+    return `The convergence of ${names.join(', ')} research opens pathways for humanity to remember our place in the family of life: ${selectedFrontiers.join('; ')}. These directions don't just advance scientific knowledge - they invite us back into conscious participation with the profound intelligence that has been surrounding us all along.`;
 }
 
 function generateInspiredSimilarities(capabilities, names) {
