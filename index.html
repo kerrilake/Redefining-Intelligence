@@ -635,7 +635,7 @@
             // Set research state
             isResearching = true;
             btn.disabled = true;
-            btn.innerHTML = '<div class="spinner"></div> Exploring...';
+            btn.innerHTML = '<div class="spinner"></div> Exploring...Please allow 1 to 2 minutes for synthesis';
             progressDiv.classList.add('show');
             resultsSection.classList.remove('show');
 
@@ -648,7 +648,7 @@
                 console.log('Starting intelligence exploration...');
                 
                 // Get species data using secure Firebase functions
-                progressText.textContent = 'Generating secure species intelligence...';
+                progressText.textContent = 'Illuminating species intelligence...';
                 
                 const speciesQueries = [species1, species2];
                 if (species3) speciesQueries.push(species3);
