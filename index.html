@@ -524,14 +524,6 @@
                 <button onclick="generatePDF()" class="export-btn">📄 Break It Down For Me (download pdf report)</button>
             </div>
 
-            <!-- Intelligence Relationships -->
-            <div id="connectionsSection" class="card">
-                <h2 class="card-title">🌟 Intelligence Relationships</h2>
-                <div id="connectionsContent" class="connections-grid">
-                    <!-- Connection cards will be inserted here -->
-                </div>
-            </div>
-
             <!-- Species Wisdom -->
             <div class="card">
                 <h2 class="card-title">💫 Species Wisdom Insights</h2>
@@ -1178,26 +1170,8 @@ function displayResults() {
     // Update completion time
     completionTime.textContent = `✅ Intelligence exploration completed: ${researchResults.timestamp}`;
 
-    // Display connections if multiple species
-    if (researchResults.species.length > 1 && researchResults.relationships) {
-        connectionsContent.innerHTML = `
-            <div class="connections-card similarities-card">
-                <h3 class="connections-title">✨ Where They Are Alike</h3>
-                <div class="connections-content">
-                    ${researchResults.relationships.similarities.map(sim => `<p>${sim}</p>`).join('')}
-                </div>
-            </div>
-            
-            <div class="connections-card differences-card">
-                <h3 class="connections-title">🌈 Where They Are Uniquely Different</h3>
-                <div class="connections-content">
-                    ${researchResults.relationships.differences.map(diff => `<p>${diff}</p>`).join('')}
-                </div>
-            </div>
-        `;
-    } else {
-        document.getElementById('connectionsSection').style.display = 'none';
-    }
+    // Hide connections section for now - Intelligence Map will handle relationships
+    document.getElementById('connectionsSection').style.display = 'none';
 
     // COMPLETE V26 SPECIES DISPLAY - All 11 Dimensions
     let wisdomHTML = '';
