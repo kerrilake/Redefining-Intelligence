@@ -1114,92 +1114,399 @@ return parseFirebaseResponse(data);
             resultsSection.classList.add('show');
         }
 
-        // PDF generation function - UNCHANGED
+        // COMPREHENSIVE PDF generation function - includes ALL intelligence dimensions
         window.generatePDF = function() {
             if (!researchResults) {
                 alert('No research data available to export.');
                 return;
             }
 
-            const speciesNames = researchResults.species.map(s => s.name).join(', ');
+            const speciesNames = researchResults.species.map(s => s.name).join('_');
             const currentDate = new Date().toLocaleDateString('en-US', { 
                 year: 'numeric', 
                 month: 'long', 
                 day: 'numeric' 
             });
+            const dateForFilename = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: '2-digit', 
+                day: '2-digit' 
+            }).replace(/\//g, '-');
 
             let htmlContent = `<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Intelligence Exploration: ${speciesNames}</title>
+    <title>Unspeciated: Redefining Intelligence Search - ${speciesNames}</title>
     <style>
-        body { font-family: 'Times New Roman', serif; line-height: 1.4; margin: 40px auto; max-width: 800px; color: #333; }
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
-        .title { font-size: 22px; font-weight: bold; margin-bottom: 8px; }
-        .subtitle { font-size: 16px; margin-bottom: 5px; font-style: italic; }
-        .section { margin: 25px 0; page-break-inside: avoid; }
-        .section-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #000; }
-        .species-section { margin: 20px 0; }
-        .species-title { font-size: 16px; font-weight: bold; margin-bottom: 10px; }
-        @media print { .no-print { display: none !important; } }
+        body { 
+            font-family: 'Georgia', 'Times New Roman', serif; 
+            line-height: 1.6; 
+            margin: 20px; 
+            color: #333; 
+            max-width: none;
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 40px; 
+            border-bottom: 3px solid #333; 
+            padding-bottom: 25px; 
+        }
+        .title { 
+            font-size: 24px; 
+            font-weight: bold; 
+            margin-bottom: 8px; 
+            color: #000;
+        }
+        .subtitle { 
+            font-size: 18px; 
+            margin-bottom: 8px; 
+            font-style: italic; 
+            color: #555;
+        }
+        .meta { 
+            font-size: 14px; 
+            color: #666; 
+            margin-bottom: 4px;
+        }
+        .section { 
+            margin: 30px 0; 
+            page-break-inside: avoid; 
+        }
+        .section-title { 
+            font-size: 20px; 
+            font-weight: bold; 
+            margin-bottom: 15px; 
+            color: #000; 
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        .species-header {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 35px 0 20px 0;
+            color: #000;
+            text-align: center;
+            border: 2px solid #333;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+        .key-discovery {
+            background: #fef9e7;
+            border: 1px solid #d4a574;
+            border-left: 4px solid #d4a574;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .key-discovery h4 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #8b5a2b;
+        }
+        .key-discovery p {
+            font-style: italic;
+            color: #5d4037;
+            font-size: 15px;
+        }
+        .framework-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .framework-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 18px;
+            page-break-inside: avoid;
+        }
+        .framework-card h4 {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .perceive-card { border-left: 4px solid #2563eb; background: #f8fafc; }
+        .relate-card { border-left: 4px solid #059669; background: #f0fdf4; }
+        .apply-card { border-left: 4px solid #7c3aed; background: #faf5ff; }
+        .perceive-card h4 { color: #1e40af; }
+        .relate-card h4 { color: #065f46; }
+        .apply-card h4 { color: #5b21b6; }
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .dimension-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 15px;
+            page-break-inside: avoid;
+        }
+        .dimension-card h5 {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .dimension-card p {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .temporal { border-left: 4px solid #ec4899; background: #fdf2f8; }
+        .temporal h5 { color: #be185d; }
+        .energetic { border-left: 4px solid #0284c7; background: #f0f9ff; }
+        .energetic h5 { color: #0369a1; }
+        .collective { border-left: 4px solid #22c55e; background: #f0fdf4; }
+        .collective h5 { color: #15803d; }
+        .adaptive { border-left: 4px solid #ea580c; background: #fff7ed; }
+        .adaptive h5 { color: #c2410c; }
+        .advanced-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .advanced-card {
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 20px;
+            page-break-inside: avoid;
+        }
+        .quantum { border-left: 4px solid #a855f7; background: #faf5ff; }
+        .quantum h5 { color: #7c3aed; }
+        .learning { border-left: 4px solid #d97706; background: #fef3c7; }
+        .learning h5 { color: #b45309; }
+        .conservation { border-left: 4px solid #059669; background: #ecfdf5; }
+        .conservation h5 { color: #047857; }
+        .advanced-card h5 {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .sources {
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .sources h5 {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #374151;
+        }
+        .sources ul {
+            margin-left: 20px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .sources li {
+            margin-bottom: 5px;
+        }
+        .special-sections {
+            margin-top: 40px;
+            border-top: 2px solid #333;
+            padding-top: 30px;
+        }
+        .special-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            page-break-inside: avoid;
+        }
+        .special-card h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #000;
+        }
+        .footer { 
+            margin-top: 50px; 
+            text-align: center; 
+            font-size: 11px; 
+            border-top: 1px solid #333; 
+            padding-top: 20px; 
+            color: #666;
+        }
+        @media print { 
+            body { margin: 15px; }
+            .no-print { display: none !important; }
+        }
+        @page { margin: 0.75in; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="title">Relational Intelligence Exploration Report</div>
-        <div class="subtitle">Perceive • Relate • Apply Framework</div>
-        <div>Species: ${speciesNames}</div>
-        <div>Generated: ${currentDate}</div>
-        <div style="font-size: 12px; margin-top: 10px;">Unspeciated: Redefining Intelligence - Secure API Version</div>
+        <div class="title">Unspeciated: Redefining Intelligence</div>
+        <div class="subtitle">Research Explorer • Perceive • Relate • Apply Framework</div>
+        <div class="meta">Species Explored: ${researchResults.species.map(s => s.name).join(', ')}</div>
+        <div class="meta">Generated: ${currentDate}</div>
+        <div class="meta">Platform: Secure Firebase Functions • Intuitive Learning Foundation</div>
     </div>
 
     <div class="section">
         <div class="section-title">Executive Summary</div>
-        <p>This exploration reveals the relational intelligence of ${researchResults.species.length} life form${researchResults.species.length > 1 ? 's' : ''} through the Perceive/Relate/Apply framework. Each demonstrates unique intelligence patterns that contribute to our understanding of consciousness as a universal phenomenon extending far beyond human cognition.</p>
+        <p>This intelligence exploration reveals the profound relational intelligence of ${researchResults.species.length} life form${researchResults.species.length > 1 ? 's' : ''} through the Perceive • Relate • Apply framework. Each species demonstrates unique intelligence patterns that expand our understanding of consciousness as a universal phenomenon extending far beyond human cognition. This research challenges anthropocentric definitions of intelligence and invites recognition of the collaborative intelligence matrix that connects all life on Earth.</p>
     </div>`;
 
-            // Add species sections
-            researchResults.species.forEach(species => {
+            // Add comprehensive species sections
+            researchResults.species.forEach((species, index) => {
                 htmlContent += `
+    <div class="species-header">
+        ${species.name} Intelligence Profile ${species.cached ? '(From Database)' : '(Newly Generated)'}
+    </div>
+
+    <div class="key-discovery">
+        <h4>💡 Key Discovery</h4>
+        <p>${species.essence}</p>
+    </div>
+
     <div class="section">
-        <div class="section-title">${species.name} Intelligence Profile ${species.cached ? '(From Database)' : '(Newly Generated)'}</div>
-        <div class="species-section">
-            <div class="species-title">Perceive: How They Sense Reality</div>
-            <p>${species.perceive_wisdom}</p>
+        <div class="section-title">Core Intelligence Framework</div>
+        <div class="framework-container">
+            <div class="framework-card perceive-card">
+                <h4>👁 Perceive</h4>
+                <p><strong>How they sense reality:</strong></p>
+                <p>${species.perceive_wisdom}</p>
+                ${species.perceive_details && species.perceive_details.length > 0 ? `
+                <ul style="margin-top: 10px; font-size: 13px;">
+                    ${species.perceive_details.map(detail => `<li>${detail}</li>`).join('')}
+                </ul>` : ''}
+            </div>
+            <div class="framework-card relate-card">
+                <h4>💚 Relate</h4>
+                <p><strong>How they connect:</strong></p>
+                <p>${species.relate_wisdom}</p>
+                ${species.relate_details && species.relate_details.length > 0 ? `
+                <ul style="margin-top: 10px; font-size: 13px;">
+                    ${species.relate_details.map(detail => `<li>${detail}</li>`).join('')}
+                </ul>` : ''}
+            </div>
+            <div class="framework-card apply-card">
+                <h4>✨ Apply</h4>
+                <p><strong>How they act with intelligence:</strong></p>
+                <p>${species.apply_wisdom}</p>
+                ${species.apply_details && species.apply_details.length > 0 ? `
+                <ul style="margin-top: 10px; font-size: 13px;">
+                    ${species.apply_details.map(detail => `<li>${detail}</li>`).join('')}
+                </ul>` : ''}
+            </div>
         </div>
-        <div class="species-section">
-            <div class="species-title">Relate: How They Connect</div>
-            <p>${species.relate_wisdom}</p>
+    </div>
+
+    ${(species.temporal || species.energetic || species.collective || species.adaptive) ? `
+    <div class="section">
+        <div class="section-title">Enhanced Intelligence Dimensions</div>
+        <div class="dimensions-grid">
+            ${species.temporal ? `
+            <div class="dimension-card temporal">
+                <h5>⏰ Temporal Intelligence</h5>
+                <p>${species.temporal}</p>
+            </div>` : ''}
+            ${species.energetic ? `
+            <div class="dimension-card energetic">
+                <h5>⚡ Energetic Intelligence</h5>
+                <p>${species.energetic}</p>
+            </div>` : ''}
+            ${species.collective ? `
+            <div class="dimension-card collective">
+                <h5>🤝 Collective Intelligence</h5>
+                <p>${species.collective}</p>
+            </div>` : ''}
+            ${species.adaptive ? `
+            <div class="dimension-card adaptive">
+                <h5>🔄 Adaptive Intelligence</h5>
+                <p>${species.adaptive}</p>
+            </div>` : ''}
         </div>
-        <div class="species-section">
-            <div class="species-title">Apply: How They Act</div>
-            <p>${species.apply_wisdom}</p>
+    </div>` : ''}
+
+    ${(species.quantumBiology || species.humanLearning || species.conservation) ? `
+    <div class="section">
+        <div class="section-title">Advanced Research Dimensions</div>
+        <div class="advanced-grid">
+            ${species.quantumBiology ? `
+            <div class="advanced-card quantum">
+                <h5>🌌 Quantum Biology</h5>
+                <p>${species.quantumBiology}</p>
+            </div>` : ''}
+            ${species.humanLearning ? `
+            <div class="advanced-card learning">
+                <h5>🎓 Human Learning Opportunities</h5>
+                <p>${species.humanLearning}</p>
+            </div>` : ''}
+            ${species.conservation ? `
+            <div class="advanced-card conservation">
+                <h5>🌍 Conservation Insights</h5>
+                <p>${species.conservation}</p>
+            </div>` : ''}
         </div>
-        <div class="species-section">
-            <div class="species-title">Consciousness Essence</div>
-            <p style="font-style: italic;">${species.essence}</p>
-        </div>
-    </div>`;
+    </div>` : ''}
+
+    ${species.sources && species.sources.length > 0 ? `
+    <div class="sources">
+        <h5>📚 Research Sources</h5>
+        <ul>
+            ${species.sources.map(source => `<li>${source}</li>`).join('')}
+        </ul>
+    </div>` : ''}`;
             });
 
+            // Add special sections if they exist
+            if (researchResults.special) {
+                htmlContent += `
+    <div class="special-sections">
+        <div class="section-title">Unified Intelligence Insights</div>
+        
+        <div class="special-card">
+            <h3>⚡ Unified Physics Integration</h3>
+            <p>${researchResults.special.unified_physics}</p>
+        </div>
+        
+        <div class="special-card">
+            <h3>🌱 Contribution to Life</h3>
+            <p>${researchResults.special.contribution_to_life}</p>
+        </div>
+        
+        <div class="special-card">
+            <h3>🔬 Research Frontiers</h3>
+            <p>${researchResults.special.research_frontiers}</p>
+        </div>
+    </div>`;
+            }
+
             htmlContent += `
-    <div style="margin-top: 40px; text-align: center; font-size: 12px; border-top: 1px solid #333; padding-top: 20px;">
+    <div class="footer">
         <p><strong>Generated by Unspeciated: Redefining Intelligence Research Platform</strong></p>
-        <p>Powered by Secure Firebase Functions • Intuitive Learning Foundation • kerrilake.com</p>
+        <p>Secure Firebase Functions • Intuitive Learning Foundation • kerrilake.com</p>
+        <p>Framework for redefining intelligence beyond human-centric definitions</p>
+        <p>© 2025 Kerri Lake. Research supporting collaborative intelligence across all life forms.</p>
     </div>
 </body>
 </html>`;
 
+            // Create proper downloadable file
             const blob = new Blob([htmlContent], { type: 'text/html' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Enhanced Intelligence Exploration - ${speciesNames} - ${currentDate}.html`;
+            a.download = `Unspeciated_Redefining_Intelligence_Search_${speciesNames}_${dateForFilename}.html`;
+            a.style.display = 'none';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
+            
+            // Show confirmation
+            alert(`PDF report generated successfully!\nFilename: Unspeciated_Redefining_Intelligence_Search_${speciesNames}_${dateForFilename}.html`);
         };
 
         window.openContributeForm = function() {
