@@ -1115,6 +1115,7 @@ return parseFirebaseResponse(data);
         }
 
         // COMPREHENSIVE PDF generation function - includes ALL intelligence dimensions
+        // COMPREHENSIVE PDF generation function - opens print dialog for true PDF download
         window.generatePDF = function() {
             if (!researchResults) {
                 alert('No research data available to export.');
@@ -1127,11 +1128,6 @@ return parseFirebaseResponse(data);
                 month: 'long', 
                 day: 'numeric' 
             });
-            const dateForFilename = new Date().toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: '2-digit', 
-                day: '2-digit' 
-            }).replace(/\//g, '-');
 
             let htmlContent = `<!DOCTYPE html>
 <html>
@@ -1493,21 +1489,22 @@ return parseFirebaseResponse(data);
 </body>
 </html>`;
 
-            // Create proper downloadable file
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Unspeciated_Redefining_Intelligence_Search_${speciesNames}_${dateForFilename}.html`;
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
+            // Open in new window and trigger print dialog for PDF generation
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(htmlContent);
+            printWindow.document.close();
             
-            // Show confirmation
-            alert(`PDF report generated successfully!\nFilename: Unspeciated_Redefining_Intelligence_Search_${speciesNames}_${dateForFilename}.html`);
-        };
+            // Wait a moment for content to load, then trigger print
+            setTimeout(() => {
+                printWindow.focus();
+                printWindow.print();
+                
+                // Optional: Close the window after printing (some browsers may block this)
+                printWindow.addEventListener('afterprint', () => {
+                    printWindow.close();
+                });
+            }, 500);
+        }
 
         window.openContributeForm = function() {
             alert('Contribute Knowledge feature coming soon! This will allow researchers worldwide to add their intelligence discoveries to our shared database.');
