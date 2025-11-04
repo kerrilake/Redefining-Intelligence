@@ -577,7 +577,7 @@
             const species2 = document.getElementById('species2').value.trim();
             
             if (!species1 || !species2) {
-                alert('Please enter at least two life forms to explore their intelligence connections.');
+                alert('Please enter at least two life forms to explore their spectrum of intelligence.');
                 return;
             }
 
@@ -641,7 +641,7 @@
                 // Always reset state
                 isResearching = false;
                 btn.disabled = false;
-                btn.innerHTML = '🔍 Explore Intelligence Connections';
+                btn.innerHTML = '🔍 Explore Relational Intelligence';
                 progressDiv.classList.remove('show');
                 if (researchResults) {
                     resultsSection.classList.add('show');
@@ -1379,7 +1379,7 @@ return parseFirebaseResponse(data);
             </div>
             <div class="framework-card relate-card">
                 <h4>💚 Relate</h4>
-                <p><strong>How they connect:</strong></p>
+                <p><strong>How they relate to what they sense:</strong></p>
                 <p>${species.relate_wisdom}</p>
                 ${species.relate_details && species.relate_details.length > 0 ? `
                 <ul style="margin-top: 10px; font-size: 13px;">
